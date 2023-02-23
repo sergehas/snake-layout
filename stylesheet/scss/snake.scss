@@ -25,7 +25,7 @@ body {
 }
 
 .item {
-    background: purple;
+    background: black;
     height: 80px;
     line-height: 80px;
     color: white;
@@ -40,7 +40,7 @@ body {
     counter-increment: num;
   } */
 
-.item:after {
+.zitem:after {
     content: "";
     display: block;
     position: absolute;
@@ -59,86 +59,124 @@ body {
     }
 
     @for $i from 0 through $cols - 1 {
+        // even line items (display order: from right to left)
         .item:nth-child(#{$cols * 2}n + #{$cols + 1 + $i}) {
+            background-color: darkgray;
             grid-column: #{$cols - $i};
+            &:before {
+                content: "";
+                display: block;
+                position: absolute;
+                z-index: 1;
+                top: 50%;
+                right: 100%;
+                transform: translateY(-50%);
+                width: calc(0% + var(--grid-h-gap));
+                height: 0px;
+                border-bottom: var(--line-thickness) solid gray;
+            }
+        }
+        // odd line items (display order: from left to right)
+        .item:nth-child(#{$cols * 2}n + #{ $i + 1} ) {
+            //background-color: darkgray;
+            &:after {
+                content: "";
+                display: block;
+                position: absolute;
+                z-index: 1;
+                bottom: 50%;
+                left: 100%;
+                transform: translateY(-50%);
+                width: calc(0% + var(--grid-h-gap));
+                height: 0px;
+                border-bottom: var(--line-thickness) solid white;
+            }
         }
     }
 
-    .item:nth-child(#{$cols * 2}n + #{$cols}):after {
-        /*odd line: from even line right top to bottom line right  (the -| line)*/
-        content: "";
-        display: block;
-        position: absolute;
-        z-index: 1;
-        top: 50%;
-        left: 50%;
-        transform: translateY(calc(-0.5 * var(--line-thickness)));
-        border: var(--line-thickness) solid green;
-        border-top-right-radius: calc(var(--grid-h-gap) * 2);
-        border-left: none;
-        border-bottom: none;
-        width: calc(50% + var(--grid-h-gap));
-        height: calc((100% + var(--grid-v-gap)) * 0.5);
+    // end & start of lines
+    /*odd line last visually (right): from even line right top to bottom line right  (the -| line)*/
+    .item:nth-child(#{$cols * 2}n + #{$cols}) {
+        background-color: darkgreen;
+        &:after {
+            content: "";
+            display: block;
+            position: absolute;
+            z-index: 1;
+            top: 50%;
+            left: 100%;
+            transform: translateY(calc(-0.5 * var(--line-thickness)));
+            border: var(--line-thickness) solid green;
+            border-top-right-radius: calc(var(--grid-h-gap) * 2);
+            border-left: none;
+            border-bottom: none;
+            width: calc(var(--grid-h-gap));
+            height: calc((100% + var(--grid-v-gap)) * 0.5);
+        }
     }
-    .item:nth-child(#{$cols * 2}n + #{$cols + 1}):after {
-        /*even line: the right most to the previous (visually) (the - line)*/
-        left: calc(-50% - var(--grid-h-gap));
-        z-index: 4;
-        border-bottom: var(--line-thickness) solid aquamarine;
-    }
-    .item:nth-child(#{$cols * 2}n + #{$cols + 1}):before {
-        /*odd line: from odd line right bottom to even line right  (the _| line*/
-        content: "";
-        display: block;
-        position: absolute;
-        z-index: 1;
-        bottom: 50%;
-        left: 50%;
-        transform: translateY(calc(0.5 * var(--line-thickness)));
-        border: var(--line-thickness) solid magenta;
-        border-bottom-right-radius: calc(var(--grid-h-gap) * 2);
-        border-left: none;
-        border-top: none;
-        width: calc(50% + var(--grid-h-gap));
-        height: calc((100% + var(--grid-v-gap)) * 0.5);
+    /*odd line last visually (right): from odd line right bottom to even line right  (the _| line*/
+    .item:nth-child(#{$cols * 2}n + #{$cols + 1}) {
+        background-color: darkmagenta;
+        &:after {
+            content: "";
+            display: block;
+            position: absolute;
+            z-index: 1;
+            bottom: 50%;
+            left: 100%;
+            transform: translateY(calc(0.5 * var(--line-thickness)));
+            border: var(--line-thickness) solid magenta;
+            border-bottom-right-radius: calc(var(--grid-h-gap) * 2);
+            border-left: none;
+            border-top: none;
+            width: calc(0% + var(--grid-h-gap));
+            height: calc((100% + var(--grid-v-gap)) * 0.5);
+        }
     }
 
-    .item:nth-child(#{$cols * 2}n):after {
-        /*even line: from even line left  to odd line right  (the |- line*/
-        content: "";
-        display: block;
-        position: absolute;
-        z-index: 1;
-        top: 50%;
-        right: 50%;
-        transform: translateY(calc(-0.5 * var(--line-thickness)));
-        border: var(--line-thickness) solid red;
-        border-top-left-radius: calc(var(--grid-h-gap) * 2);
-        border-right: none;
-        border-bottom: none;
-        width: calc(50% + var(--grid-h-gap));
-        height: calc((100% + var(--grid-v-gap)) * 0.5);
+    /*even line 1st visually (left): from even line left  to odd line right  (the |- line*/
+    .item:nth-child(#{$cols * 2}n) {
+        background-color: darkred;
+        &:before {
+            content: "";
+            display: block;
+            position: absolute;
+            z-index: 1;
+            top: 50%;
+            right: 100%;
+            transform: translateY(calc(-0.5 * var(--line-thickness)));
+            border: var(--line-thickness) solid red;
+            border-top-left-radius: calc(var(--grid-h-gap) * 2);
+            border-right: none;
+            border-bottom: none;
+            width: calc(0% + var(--grid-h-gap));
+            height: calc((100% + var(--grid-v-gap)) * 0.5);
+        }
     }
-    .item:nth-child(#{$cols *2}n + 1):before {
-        content: "";
-        display: block;
-        position: absolute;
-        z-index: 1;
-        bottom: 50%;
-        right: 50%;
-        transform: translateY(calc(0.5 * var(--line-thickness)));
-        border: var(--line-thickness) solid blue;
-        border-bottom-left-radius: calc(var(--grid-h-gap) * 2);
-        border-right: none;
-        border-top: none;
-        width: calc(50% + var(--grid-h-gap));
-        height: calc((100% + var(--grid-v-gap)) * 0.5);
+    /*odd line 1st visually (left): from even line left bottom to odd line left  (the |_ line*/
+    .item:nth-child(#{$cols *2}n + 1) {
+        background-color: darkblue;
+        &:before {
+            content: "";
+            display: block;
+            position: absolute;
+            z-index: 1;
+            bottom: 50%;
+            right: 100%;
+            transform: translateY(calc(0.5 * var(--line-thickness)));
+            border: var(--line-thickness) solid blue;
+            border-bottom-left-radius: calc(var(--grid-h-gap) * 2);
+            border-right: none;
+            border-top: none;
+            width: calc(0% + var(--grid-h-gap));
+            height: calc((100% + var(--grid-v-gap)) * 0.5);
+        }
     }
 
     .item:first-child:before {
         border: none;
     }
-    .item:last-child:after {
+    .zitem:last-child:after {
         border: none;
     }
 }
@@ -146,11 +184,11 @@ body {
 @media screen and (max-width: 200px) {
     @include gridify(1);
 }
- 
+
 @media screen and (min-width: 201px) and (max-width: 300px) {
     @include gridify(2);
 }
- 
+
 @media screen and (min-width: 301px) and (max-width: 460px) {
     @include gridify(3);
 }
