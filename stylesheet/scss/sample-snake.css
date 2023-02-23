@@ -1,0 +1,135 @@
+body {
+    font: 400 14px "Arial", sans-serif;
+    counter-reset: num;
+    box-sizing: border-box;
+}
+
+:root {
+    --grid-v-gap: 20px;
+    --grid-h-gap: 20px;
+    --line-thickness: 5px;
+}
+
+
+
+.flex-container {
+    /* width: 500px; */
+    background: orange;
+    display: grid;
+    /*define the number of column*/
+    grid-template-columns: repeat(5, 1fr);
+     grid-auto-flow: dense;
+    /* this is important to fill all the space*/
+    grid-row-gap: var(--grid-v-gap);
+    grid-column-gap: var(--grid-h-gap);
+    /* padding: 10px; */
+    margin-right: var(--grid-h-gap);
+}
+
+.item {
+    background: purple;
+    line-height: 80px;
+    color: white;
+    font-weight: bold;
+    font-size: 2em;
+    text-align: center;
+    position: relative;
+}
+
+/* .item:before {
+    content: counter(num);
+    counter-increment: num;
+  } */
+
+.item:after {
+    content: "";
+    display: block;
+    position: absolute;
+    z-index: 1;
+    top: 50%;
+    left: 50%;
+    transform: translateY(-50%);
+    width: calc(100% + var(--grid-h-gap));
+    height: 0px;
+    border-bottom: var(--line-thickness) solid darkgray;
+}
+
+.item:nth-child(10n + 5):after {
+    /*even line: from even line right top to bottom line right  (the -| line*/
+    content: "";
+    display: block;
+    position: absolute;
+    z-index: 1;
+    top: 50%;
+    left: 50%;
+    transform: translateY( calc(-.5 * var(--line-thickness)));
+    border: var(--line-thickness) solid green;
+    border-top-right-radius: calc(var(--grid-h-gap) * 2) ;
+    border-left: none;
+    border-bottom: none;
+    width: calc(50% + var(--grid-h-gap));
+     height: calc((100% + var(--grid-v-gap)) * .5);
+}
+
+
+.item:nth-child(10n + 6):after {
+    left: calc(-50% - var(--grid-h-gap));
+    z-index: 4;
+    border-bottom: var(--line-thickness) solid aquamarine;
+}
+
+.item:nth-child(10n + 6):before {
+    /*even line: from odd line right bottom to even line right  (the _| line*/
+    content: "";
+    display: block;
+    position: absolute;
+    z-index: 1;
+    bottom: 50%;
+    left: 50%;
+    transform: translateY(calc(.5 * var(--line-thickness)));
+    border: var(--line-thickness) solid magenta;
+    border-bottom-right-radius: calc(var(--grid-h-gap)  * 2);
+    border-left: none;
+    border-top: none;
+    width: calc(50% + var(--grid-h-gap));
+    height: calc((100% + var(--grid-v-gap)) * .5);
+}
+
+
+/*
+* ********************************************************************
+* classes for a 5 columns grid
+*/
+.item:nth-child(10n + 6) {
+    grid-column: 5;
+    background: red;
+}
+
+.item:nth-child(10n + 7) {
+    grid-column: 4;
+    background: blue;
+}
+
+.item:nth-child(10n + 8) {
+    grid-column: 3;
+    background: yellow;
+}
+
+.item:nth-child(10n + 9) {
+    grid-column: 2;
+    background: green;
+}
+
+.item:nth-child(10n + 10) {
+    grid-column: 1;
+    background: grey;
+}
+
+/*.item:nth-child(10n + 10) {grid-column:1} not needed*/
+/* For N = number of columns 
+  .item:nth-child((2xN)n + (N+1)) { grid-column:N; }
+  .item:nth-child((2xN)n + (N+2)) { grid-column:(N-1); }
+  ....
+  .item:nth-child((2xN)n + (2xN)) { grid-column:1; }
+
+*/
