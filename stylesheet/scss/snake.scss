@@ -35,24 +35,6 @@ body {
     position: relative;
 }
 
-/* .item:before {
-    content: counter(num);
-    counter-increment: num;
-  } */
-
-.zitem:after {
-    content: "";
-    display: block;
-    position: absolute;
-    z-index: 1;
-    top: 50%;
-    left: 50%;
-    transform: translateY(-50%);
-    width: calc(100% + var(--grid-h-gap));
-    height: 0px;
-    border-bottom: var(--line-thickness) solid darkgray;
-}
-
 @mixin gridify($cols) {
     .flex-container {
         grid-template-columns: repeat($cols, 1fr);
@@ -77,7 +59,7 @@ body {
             }
         }
         // odd line items (display order: from left to right)
-        .item:nth-child(#{$cols * 2}n + #{ $i + 1} ) {
+        .item:nth-child(#{$cols * 2}n + #{ $i + 1}) {
             //background-color: darkgray;
             &:after {
                 content: "";
@@ -91,6 +73,13 @@ body {
                 height: 0px;
                 border-bottom: var(--line-thickness) solid white;
             }
+        }
+        //last items of list
+        .item:nth-child(#{$cols * 2}n + #{$cols + 1 + $i}):last-child::before {
+            border: none;
+        }
+        .item:nth-child(#{$cols * 2}n + #{ $i + 1}):last-child::after {
+            border: none;
         }
     }
 
@@ -174,9 +163,6 @@ body {
     }
 
     .item:first-child:before {
-        border: none;
-    }
-    .zitem:last-child:after {
         border: none;
     }
 }
