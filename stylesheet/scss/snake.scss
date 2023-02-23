@@ -20,8 +20,8 @@ body {
     grid-row-gap: var(--grid-v-gap);
     grid-column-gap: var(--grid-h-gap);
     /* padding: 10px; */
-    margin-right: var(--grid-h-gap);
-    margin-left: var(--grid-h-gap);
+    margin-right: calc(var(--line-thickness) + var(--grid-h-gap));
+    margin-left: calc(var(--line-thickness) + var(--grid-h-gap));
 }
 
 .item {
