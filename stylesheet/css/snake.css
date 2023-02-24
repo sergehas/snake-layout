@@ -2,7 +2,8 @@
 body {
   font: 400 14px "Arial", sans-serif;
   counter-reset: num;
-  box-sizing: border-box; }
+  box-sizing: border-box;
+  background-color: darkslategrey; }
 
 :root {
   --grid-v-gap: 20px;
@@ -31,15 +32,21 @@ body {
   font-size: 2em;
   text-align: center;
   position: relative; }
+  .item::before, .item::after {
+    /*for debug*/
+    color: yellow;
+    font-size: 14px;
+    line-height: 100%; }
 
 @media screen and (max-width: 200px) {
   .flex-container {
     grid-template-columns: repeat(1, 1fr); }
   .item:nth-child(2n + 2) {
     background-color: darkgray;
-    grid-column: 1; }
-    .item:nth-child(2n + 2):before {
-      content: "";
+    grid-column: 1;
+    /*even line : from item to next: the - line, from right to left*/ }
+    .item:nth-child(2n + 2):after {
+      content: "a";
       display: block;
       position: absolute;
       z-index: 1;
@@ -49,10 +56,10 @@ body {
       width: calc(0% + var(--grid-h-gap));
       height: 0px;
       border-bottom: var(--line-thickness) solid gray; }
-    .item:nth-child(2n + 2):last-child::before {
+    .item:nth-child(2n + 2):last-child::after {
       border: none; }
   .item:nth-child(2n + 1):after {
-    content: "";
+    content: "a";
     display: block;
     position: absolute;
     z-index: 1;
@@ -68,14 +75,14 @@ body {
   .item:nth-child(2n + 1) {
     background-color: darkgreen; }
     .item:nth-child(2n + 1):after {
-      content: "";
+      content: "a";
       display: block;
       position: absolute;
       z-index: 1;
       top: 50%;
       left: 100%;
       transform: translateY(calc(-0.5 * var(--line-thickness)));
-      border: var(--line-thickness) solid green;
+      border: var(--line-thickness) solid lightgreen;
       border-top-right-radius: calc(var(--grid-h-gap) * 2);
       border-left: none;
       border-bottom: none;
@@ -84,8 +91,8 @@ body {
   /*odd line last visually (right): from odd line right bottom to even line right  (the ⮠ line*/
   .item:nth-child(2n + 2) {
     background-color: darkmagenta; }
-    .item:nth-child(2n + 2):after {
-      content: "";
+    .item:nth-child(2n + 2):before {
+      content: "b";
       display: block;
       position: absolute;
       z-index: 1;
@@ -101,8 +108,8 @@ body {
   /*even line 1st visually (left): from even line left  to odd line right  (the ⮦ line*/
   .item:nth-child(2n) {
     background-color: darkred; }
-    .item:nth-child(2n):before {
-      content: "";
+    .item:nth-child(2n):after {
+      content: "a";
       display: block;
       position: absolute;
       z-index: 1;
@@ -119,7 +126,7 @@ body {
   .item:nth-child(2n + 1) {
     background-color: darkblue; }
     .item:nth-child(2n + 1):before {
-      content: "";
+      content: "b";
       display: block;
       position: absolute;
       z-index: 1;
@@ -140,9 +147,10 @@ body {
     grid-template-columns: repeat(2, 1fr); }
   .item:nth-child(4n + 3) {
     background-color: darkgray;
-    grid-column: 2; }
-    .item:nth-child(4n + 3):before {
-      content: "";
+    grid-column: 2;
+    /*even line : from item to next: the - line, from right to left*/ }
+    .item:nth-child(4n + 3):after {
+      content: "a";
       display: block;
       position: absolute;
       z-index: 1;
@@ -152,10 +160,10 @@ body {
       width: calc(0% + var(--grid-h-gap));
       height: 0px;
       border-bottom: var(--line-thickness) solid gray; }
-    .item:nth-child(4n + 3):last-child::before {
+    .item:nth-child(4n + 3):last-child::after {
       border: none; }
   .item:nth-child(4n + 1):after {
-    content: "";
+    content: "a";
     display: block;
     position: absolute;
     z-index: 1;
@@ -169,9 +177,10 @@ body {
     border: none; }
   .item:nth-child(4n + 4) {
     background-color: darkgray;
-    grid-column: 1; }
-    .item:nth-child(4n + 4):before {
-      content: "";
+    grid-column: 1;
+    /*even line : from item to next: the - line, from right to left*/ }
+    .item:nth-child(4n + 4):after {
+      content: "a";
       display: block;
       position: absolute;
       z-index: 1;
@@ -181,10 +190,10 @@ body {
       width: calc(0% + var(--grid-h-gap));
       height: 0px;
       border-bottom: var(--line-thickness) solid gray; }
-    .item:nth-child(4n + 4):last-child::before {
+    .item:nth-child(4n + 4):last-child::after {
       border: none; }
   .item:nth-child(4n + 2):after {
-    content: "";
+    content: "a";
     display: block;
     position: absolute;
     z-index: 1;
@@ -200,14 +209,14 @@ body {
   .item:nth-child(4n + 2) {
     background-color: darkgreen; }
     .item:nth-child(4n + 2):after {
-      content: "";
+      content: "a";
       display: block;
       position: absolute;
       z-index: 1;
       top: 50%;
       left: 100%;
       transform: translateY(calc(-0.5 * var(--line-thickness)));
-      border: var(--line-thickness) solid green;
+      border: var(--line-thickness) solid lightgreen;
       border-top-right-radius: calc(var(--grid-h-gap) * 2);
       border-left: none;
       border-bottom: none;
@@ -216,8 +225,8 @@ body {
   /*odd line last visually (right): from odd line right bottom to even line right  (the ⮠ line*/
   .item:nth-child(4n + 3) {
     background-color: darkmagenta; }
-    .item:nth-child(4n + 3):after {
-      content: "";
+    .item:nth-child(4n + 3):before {
+      content: "b";
       display: block;
       position: absolute;
       z-index: 1;
@@ -233,8 +242,8 @@ body {
   /*even line 1st visually (left): from even line left  to odd line right  (the ⮦ line*/
   .item:nth-child(4n) {
     background-color: darkred; }
-    .item:nth-child(4n):before {
-      content: "";
+    .item:nth-child(4n):after {
+      content: "a";
       display: block;
       position: absolute;
       z-index: 1;
@@ -251,7 +260,7 @@ body {
   .item:nth-child(4n + 1) {
     background-color: darkblue; }
     .item:nth-child(4n + 1):before {
-      content: "";
+      content: "b";
       display: block;
       position: absolute;
       z-index: 1;
@@ -272,9 +281,10 @@ body {
     grid-template-columns: repeat(3, 1fr); }
   .item:nth-child(6n + 4) {
     background-color: darkgray;
-    grid-column: 3; }
-    .item:nth-child(6n + 4):before {
-      content: "";
+    grid-column: 3;
+    /*even line : from item to next: the - line, from right to left*/ }
+    .item:nth-child(6n + 4):after {
+      content: "a";
       display: block;
       position: absolute;
       z-index: 1;
@@ -284,10 +294,10 @@ body {
       width: calc(0% + var(--grid-h-gap));
       height: 0px;
       border-bottom: var(--line-thickness) solid gray; }
-    .item:nth-child(6n + 4):last-child::before {
+    .item:nth-child(6n + 4):last-child::after {
       border: none; }
   .item:nth-child(6n + 1):after {
-    content: "";
+    content: "a";
     display: block;
     position: absolute;
     z-index: 1;
@@ -301,9 +311,10 @@ body {
     border: none; }
   .item:nth-child(6n + 5) {
     background-color: darkgray;
-    grid-column: 2; }
-    .item:nth-child(6n + 5):before {
-      content: "";
+    grid-column: 2;
+    /*even line : from item to next: the - line, from right to left*/ }
+    .item:nth-child(6n + 5):after {
+      content: "a";
       display: block;
       position: absolute;
       z-index: 1;
@@ -313,10 +324,10 @@ body {
       width: calc(0% + var(--grid-h-gap));
       height: 0px;
       border-bottom: var(--line-thickness) solid gray; }
-    .item:nth-child(6n + 5):last-child::before {
+    .item:nth-child(6n + 5):last-child::after {
       border: none; }
   .item:nth-child(6n + 2):after {
-    content: "";
+    content: "a";
     display: block;
     position: absolute;
     z-index: 1;
@@ -330,9 +341,10 @@ body {
     border: none; }
   .item:nth-child(6n + 6) {
     background-color: darkgray;
-    grid-column: 1; }
-    .item:nth-child(6n + 6):before {
-      content: "";
+    grid-column: 1;
+    /*even line : from item to next: the - line, from right to left*/ }
+    .item:nth-child(6n + 6):after {
+      content: "a";
       display: block;
       position: absolute;
       z-index: 1;
@@ -342,10 +354,10 @@ body {
       width: calc(0% + var(--grid-h-gap));
       height: 0px;
       border-bottom: var(--line-thickness) solid gray; }
-    .item:nth-child(6n + 6):last-child::before {
+    .item:nth-child(6n + 6):last-child::after {
       border: none; }
   .item:nth-child(6n + 3):after {
-    content: "";
+    content: "a";
     display: block;
     position: absolute;
     z-index: 1;
@@ -361,14 +373,14 @@ body {
   .item:nth-child(6n + 3) {
     background-color: darkgreen; }
     .item:nth-child(6n + 3):after {
-      content: "";
+      content: "a";
       display: block;
       position: absolute;
       z-index: 1;
       top: 50%;
       left: 100%;
       transform: translateY(calc(-0.5 * var(--line-thickness)));
-      border: var(--line-thickness) solid green;
+      border: var(--line-thickness) solid lightgreen;
       border-top-right-radius: calc(var(--grid-h-gap) * 2);
       border-left: none;
       border-bottom: none;
@@ -377,8 +389,8 @@ body {
   /*odd line last visually (right): from odd line right bottom to even line right  (the ⮠ line*/
   .item:nth-child(6n + 4) {
     background-color: darkmagenta; }
-    .item:nth-child(6n + 4):after {
-      content: "";
+    .item:nth-child(6n + 4):before {
+      content: "b";
       display: block;
       position: absolute;
       z-index: 1;
@@ -394,8 +406,8 @@ body {
   /*even line 1st visually (left): from even line left  to odd line right  (the ⮦ line*/
   .item:nth-child(6n) {
     background-color: darkred; }
-    .item:nth-child(6n):before {
-      content: "";
+    .item:nth-child(6n):after {
+      content: "a";
       display: block;
       position: absolute;
       z-index: 1;
@@ -412,7 +424,7 @@ body {
   .item:nth-child(6n + 1) {
     background-color: darkblue; }
     .item:nth-child(6n + 1):before {
-      content: "";
+      content: "b";
       display: block;
       position: absolute;
       z-index: 1;
@@ -433,9 +445,10 @@ body {
     grid-template-columns: repeat(4, 1fr); }
   .item:nth-child(8n + 5) {
     background-color: darkgray;
-    grid-column: 4; }
-    .item:nth-child(8n + 5):before {
-      content: "";
+    grid-column: 4;
+    /*even line : from item to next: the - line, from right to left*/ }
+    .item:nth-child(8n + 5):after {
+      content: "a";
       display: block;
       position: absolute;
       z-index: 1;
@@ -445,10 +458,10 @@ body {
       width: calc(0% + var(--grid-h-gap));
       height: 0px;
       border-bottom: var(--line-thickness) solid gray; }
-    .item:nth-child(8n + 5):last-child::before {
+    .item:nth-child(8n + 5):last-child::after {
       border: none; }
   .item:nth-child(8n + 1):after {
-    content: "";
+    content: "a";
     display: block;
     position: absolute;
     z-index: 1;
@@ -462,9 +475,10 @@ body {
     border: none; }
   .item:nth-child(8n + 6) {
     background-color: darkgray;
-    grid-column: 3; }
-    .item:nth-child(8n + 6):before {
-      content: "";
+    grid-column: 3;
+    /*even line : from item to next: the - line, from right to left*/ }
+    .item:nth-child(8n + 6):after {
+      content: "a";
       display: block;
       position: absolute;
       z-index: 1;
@@ -474,10 +488,10 @@ body {
       width: calc(0% + var(--grid-h-gap));
       height: 0px;
       border-bottom: var(--line-thickness) solid gray; }
-    .item:nth-child(8n + 6):last-child::before {
+    .item:nth-child(8n + 6):last-child::after {
       border: none; }
   .item:nth-child(8n + 2):after {
-    content: "";
+    content: "a";
     display: block;
     position: absolute;
     z-index: 1;
@@ -491,9 +505,10 @@ body {
     border: none; }
   .item:nth-child(8n + 7) {
     background-color: darkgray;
-    grid-column: 2; }
-    .item:nth-child(8n + 7):before {
-      content: "";
+    grid-column: 2;
+    /*even line : from item to next: the - line, from right to left*/ }
+    .item:nth-child(8n + 7):after {
+      content: "a";
       display: block;
       position: absolute;
       z-index: 1;
@@ -503,10 +518,10 @@ body {
       width: calc(0% + var(--grid-h-gap));
       height: 0px;
       border-bottom: var(--line-thickness) solid gray; }
-    .item:nth-child(8n + 7):last-child::before {
+    .item:nth-child(8n + 7):last-child::after {
       border: none; }
   .item:nth-child(8n + 3):after {
-    content: "";
+    content: "a";
     display: block;
     position: absolute;
     z-index: 1;
@@ -520,9 +535,10 @@ body {
     border: none; }
   .item:nth-child(8n + 8) {
     background-color: darkgray;
-    grid-column: 1; }
-    .item:nth-child(8n + 8):before {
-      content: "";
+    grid-column: 1;
+    /*even line : from item to next: the - line, from right to left*/ }
+    .item:nth-child(8n + 8):after {
+      content: "a";
       display: block;
       position: absolute;
       z-index: 1;
@@ -532,10 +548,10 @@ body {
       width: calc(0% + var(--grid-h-gap));
       height: 0px;
       border-bottom: var(--line-thickness) solid gray; }
-    .item:nth-child(8n + 8):last-child::before {
+    .item:nth-child(8n + 8):last-child::after {
       border: none; }
   .item:nth-child(8n + 4):after {
-    content: "";
+    content: "a";
     display: block;
     position: absolute;
     z-index: 1;
@@ -551,14 +567,14 @@ body {
   .item:nth-child(8n + 4) {
     background-color: darkgreen; }
     .item:nth-child(8n + 4):after {
-      content: "";
+      content: "a";
       display: block;
       position: absolute;
       z-index: 1;
       top: 50%;
       left: 100%;
       transform: translateY(calc(-0.5 * var(--line-thickness)));
-      border: var(--line-thickness) solid green;
+      border: var(--line-thickness) solid lightgreen;
       border-top-right-radius: calc(var(--grid-h-gap) * 2);
       border-left: none;
       border-bottom: none;
@@ -567,8 +583,8 @@ body {
   /*odd line last visually (right): from odd line right bottom to even line right  (the ⮠ line*/
   .item:nth-child(8n + 5) {
     background-color: darkmagenta; }
-    .item:nth-child(8n + 5):after {
-      content: "";
+    .item:nth-child(8n + 5):before {
+      content: "b";
       display: block;
       position: absolute;
       z-index: 1;
@@ -584,8 +600,8 @@ body {
   /*even line 1st visually (left): from even line left  to odd line right  (the ⮦ line*/
   .item:nth-child(8n) {
     background-color: darkred; }
-    .item:nth-child(8n):before {
-      content: "";
+    .item:nth-child(8n):after {
+      content: "a";
       display: block;
       position: absolute;
       z-index: 1;
@@ -602,7 +618,7 @@ body {
   .item:nth-child(8n + 1) {
     background-color: darkblue; }
     .item:nth-child(8n + 1):before {
-      content: "";
+      content: "b";
       display: block;
       position: absolute;
       z-index: 1;
@@ -623,9 +639,10 @@ body {
     grid-template-columns: repeat(5, 1fr); }
   .item:nth-child(10n + 6) {
     background-color: darkgray;
-    grid-column: 5; }
-    .item:nth-child(10n + 6):before {
-      content: "";
+    grid-column: 5;
+    /*even line : from item to next: the - line, from right to left*/ }
+    .item:nth-child(10n + 6):after {
+      content: "a";
       display: block;
       position: absolute;
       z-index: 1;
@@ -635,10 +652,10 @@ body {
       width: calc(0% + var(--grid-h-gap));
       height: 0px;
       border-bottom: var(--line-thickness) solid gray; }
-    .item:nth-child(10n + 6):last-child::before {
+    .item:nth-child(10n + 6):last-child::after {
       border: none; }
   .item:nth-child(10n + 1):after {
-    content: "";
+    content: "a";
     display: block;
     position: absolute;
     z-index: 1;
@@ -652,9 +669,10 @@ body {
     border: none; }
   .item:nth-child(10n + 7) {
     background-color: darkgray;
-    grid-column: 4; }
-    .item:nth-child(10n + 7):before {
-      content: "";
+    grid-column: 4;
+    /*even line : from item to next: the - line, from right to left*/ }
+    .item:nth-child(10n + 7):after {
+      content: "a";
       display: block;
       position: absolute;
       z-index: 1;
@@ -664,10 +682,10 @@ body {
       width: calc(0% + var(--grid-h-gap));
       height: 0px;
       border-bottom: var(--line-thickness) solid gray; }
-    .item:nth-child(10n + 7):last-child::before {
+    .item:nth-child(10n + 7):last-child::after {
       border: none; }
   .item:nth-child(10n + 2):after {
-    content: "";
+    content: "a";
     display: block;
     position: absolute;
     z-index: 1;
@@ -681,9 +699,10 @@ body {
     border: none; }
   .item:nth-child(10n + 8) {
     background-color: darkgray;
-    grid-column: 3; }
-    .item:nth-child(10n + 8):before {
-      content: "";
+    grid-column: 3;
+    /*even line : from item to next: the - line, from right to left*/ }
+    .item:nth-child(10n + 8):after {
+      content: "a";
       display: block;
       position: absolute;
       z-index: 1;
@@ -693,10 +712,10 @@ body {
       width: calc(0% + var(--grid-h-gap));
       height: 0px;
       border-bottom: var(--line-thickness) solid gray; }
-    .item:nth-child(10n + 8):last-child::before {
+    .item:nth-child(10n + 8):last-child::after {
       border: none; }
   .item:nth-child(10n + 3):after {
-    content: "";
+    content: "a";
     display: block;
     position: absolute;
     z-index: 1;
@@ -710,9 +729,10 @@ body {
     border: none; }
   .item:nth-child(10n + 9) {
     background-color: darkgray;
-    grid-column: 2; }
-    .item:nth-child(10n + 9):before {
-      content: "";
+    grid-column: 2;
+    /*even line : from item to next: the - line, from right to left*/ }
+    .item:nth-child(10n + 9):after {
+      content: "a";
       display: block;
       position: absolute;
       z-index: 1;
@@ -722,10 +742,10 @@ body {
       width: calc(0% + var(--grid-h-gap));
       height: 0px;
       border-bottom: var(--line-thickness) solid gray; }
-    .item:nth-child(10n + 9):last-child::before {
+    .item:nth-child(10n + 9):last-child::after {
       border: none; }
   .item:nth-child(10n + 4):after {
-    content: "";
+    content: "a";
     display: block;
     position: absolute;
     z-index: 1;
@@ -739,9 +759,10 @@ body {
     border: none; }
   .item:nth-child(10n + 10) {
     background-color: darkgray;
-    grid-column: 1; }
-    .item:nth-child(10n + 10):before {
-      content: "";
+    grid-column: 1;
+    /*even line : from item to next: the - line, from right to left*/ }
+    .item:nth-child(10n + 10):after {
+      content: "a";
       display: block;
       position: absolute;
       z-index: 1;
@@ -751,10 +772,10 @@ body {
       width: calc(0% + var(--grid-h-gap));
       height: 0px;
       border-bottom: var(--line-thickness) solid gray; }
-    .item:nth-child(10n + 10):last-child::before {
+    .item:nth-child(10n + 10):last-child::after {
       border: none; }
   .item:nth-child(10n + 5):after {
-    content: "";
+    content: "a";
     display: block;
     position: absolute;
     z-index: 1;
@@ -770,14 +791,14 @@ body {
   .item:nth-child(10n + 5) {
     background-color: darkgreen; }
     .item:nth-child(10n + 5):after {
-      content: "";
+      content: "a";
       display: block;
       position: absolute;
       z-index: 1;
       top: 50%;
       left: 100%;
       transform: translateY(calc(-0.5 * var(--line-thickness)));
-      border: var(--line-thickness) solid green;
+      border: var(--line-thickness) solid lightgreen;
       border-top-right-radius: calc(var(--grid-h-gap) * 2);
       border-left: none;
       border-bottom: none;
@@ -786,8 +807,8 @@ body {
   /*odd line last visually (right): from odd line right bottom to even line right  (the ⮠ line*/
   .item:nth-child(10n + 6) {
     background-color: darkmagenta; }
-    .item:nth-child(10n + 6):after {
-      content: "";
+    .item:nth-child(10n + 6):before {
+      content: "b";
       display: block;
       position: absolute;
       z-index: 1;
@@ -803,8 +824,8 @@ body {
   /*even line 1st visually (left): from even line left  to odd line right  (the ⮦ line*/
   .item:nth-child(10n) {
     background-color: darkred; }
-    .item:nth-child(10n):before {
-      content: "";
+    .item:nth-child(10n):after {
+      content: "a";
       display: block;
       position: absolute;
       z-index: 1;
@@ -821,7 +842,7 @@ body {
   .item:nth-child(10n + 1) {
     background-color: darkblue; }
     .item:nth-child(10n + 1):before {
-      content: "";
+      content: "b";
       display: block;
       position: absolute;
       z-index: 1;
@@ -842,9 +863,10 @@ body {
     grid-template-columns: repeat(6, 1fr); }
   .item:nth-child(12n + 7) {
     background-color: darkgray;
-    grid-column: 6; }
-    .item:nth-child(12n + 7):before {
-      content: "";
+    grid-column: 6;
+    /*even line : from item to next: the - line, from right to left*/ }
+    .item:nth-child(12n + 7):after {
+      content: "a";
       display: block;
       position: absolute;
       z-index: 1;
@@ -854,10 +876,10 @@ body {
       width: calc(0% + var(--grid-h-gap));
       height: 0px;
       border-bottom: var(--line-thickness) solid gray; }
-    .item:nth-child(12n + 7):last-child::before {
+    .item:nth-child(12n + 7):last-child::after {
       border: none; }
   .item:nth-child(12n + 1):after {
-    content: "";
+    content: "a";
     display: block;
     position: absolute;
     z-index: 1;
@@ -871,9 +893,10 @@ body {
     border: none; }
   .item:nth-child(12n + 8) {
     background-color: darkgray;
-    grid-column: 5; }
-    .item:nth-child(12n + 8):before {
-      content: "";
+    grid-column: 5;
+    /*even line : from item to next: the - line, from right to left*/ }
+    .item:nth-child(12n + 8):after {
+      content: "a";
       display: block;
       position: absolute;
       z-index: 1;
@@ -883,10 +906,10 @@ body {
       width: calc(0% + var(--grid-h-gap));
       height: 0px;
       border-bottom: var(--line-thickness) solid gray; }
-    .item:nth-child(12n + 8):last-child::before {
+    .item:nth-child(12n + 8):last-child::after {
       border: none; }
   .item:nth-child(12n + 2):after {
-    content: "";
+    content: "a";
     display: block;
     position: absolute;
     z-index: 1;
@@ -900,9 +923,10 @@ body {
     border: none; }
   .item:nth-child(12n + 9) {
     background-color: darkgray;
-    grid-column: 4; }
-    .item:nth-child(12n + 9):before {
-      content: "";
+    grid-column: 4;
+    /*even line : from item to next: the - line, from right to left*/ }
+    .item:nth-child(12n + 9):after {
+      content: "a";
       display: block;
       position: absolute;
       z-index: 1;
@@ -912,10 +936,10 @@ body {
       width: calc(0% + var(--grid-h-gap));
       height: 0px;
       border-bottom: var(--line-thickness) solid gray; }
-    .item:nth-child(12n + 9):last-child::before {
+    .item:nth-child(12n + 9):last-child::after {
       border: none; }
   .item:nth-child(12n + 3):after {
-    content: "";
+    content: "a";
     display: block;
     position: absolute;
     z-index: 1;
@@ -929,9 +953,10 @@ body {
     border: none; }
   .item:nth-child(12n + 10) {
     background-color: darkgray;
-    grid-column: 3; }
-    .item:nth-child(12n + 10):before {
-      content: "";
+    grid-column: 3;
+    /*even line : from item to next: the - line, from right to left*/ }
+    .item:nth-child(12n + 10):after {
+      content: "a";
       display: block;
       position: absolute;
       z-index: 1;
@@ -941,10 +966,10 @@ body {
       width: calc(0% + var(--grid-h-gap));
       height: 0px;
       border-bottom: var(--line-thickness) solid gray; }
-    .item:nth-child(12n + 10):last-child::before {
+    .item:nth-child(12n + 10):last-child::after {
       border: none; }
   .item:nth-child(12n + 4):after {
-    content: "";
+    content: "a";
     display: block;
     position: absolute;
     z-index: 1;
@@ -958,9 +983,10 @@ body {
     border: none; }
   .item:nth-child(12n + 11) {
     background-color: darkgray;
-    grid-column: 2; }
-    .item:nth-child(12n + 11):before {
-      content: "";
+    grid-column: 2;
+    /*even line : from item to next: the - line, from right to left*/ }
+    .item:nth-child(12n + 11):after {
+      content: "a";
       display: block;
       position: absolute;
       z-index: 1;
@@ -970,10 +996,10 @@ body {
       width: calc(0% + var(--grid-h-gap));
       height: 0px;
       border-bottom: var(--line-thickness) solid gray; }
-    .item:nth-child(12n + 11):last-child::before {
+    .item:nth-child(12n + 11):last-child::after {
       border: none; }
   .item:nth-child(12n + 5):after {
-    content: "";
+    content: "a";
     display: block;
     position: absolute;
     z-index: 1;
@@ -987,9 +1013,10 @@ body {
     border: none; }
   .item:nth-child(12n + 12) {
     background-color: darkgray;
-    grid-column: 1; }
-    .item:nth-child(12n + 12):before {
-      content: "";
+    grid-column: 1;
+    /*even line : from item to next: the - line, from right to left*/ }
+    .item:nth-child(12n + 12):after {
+      content: "a";
       display: block;
       position: absolute;
       z-index: 1;
@@ -999,10 +1026,10 @@ body {
       width: calc(0% + var(--grid-h-gap));
       height: 0px;
       border-bottom: var(--line-thickness) solid gray; }
-    .item:nth-child(12n + 12):last-child::before {
+    .item:nth-child(12n + 12):last-child::after {
       border: none; }
   .item:nth-child(12n + 6):after {
-    content: "";
+    content: "a";
     display: block;
     position: absolute;
     z-index: 1;
@@ -1018,14 +1045,14 @@ body {
   .item:nth-child(12n + 6) {
     background-color: darkgreen; }
     .item:nth-child(12n + 6):after {
-      content: "";
+      content: "a";
       display: block;
       position: absolute;
       z-index: 1;
       top: 50%;
       left: 100%;
       transform: translateY(calc(-0.5 * var(--line-thickness)));
-      border: var(--line-thickness) solid green;
+      border: var(--line-thickness) solid lightgreen;
       border-top-right-radius: calc(var(--grid-h-gap) * 2);
       border-left: none;
       border-bottom: none;
@@ -1034,8 +1061,8 @@ body {
   /*odd line last visually (right): from odd line right bottom to even line right  (the ⮠ line*/
   .item:nth-child(12n + 7) {
     background-color: darkmagenta; }
-    .item:nth-child(12n + 7):after {
-      content: "";
+    .item:nth-child(12n + 7):before {
+      content: "b";
       display: block;
       position: absolute;
       z-index: 1;
@@ -1051,8 +1078,8 @@ body {
   /*even line 1st visually (left): from even line left  to odd line right  (the ⮦ line*/
   .item:nth-child(12n) {
     background-color: darkred; }
-    .item:nth-child(12n):before {
-      content: "";
+    .item:nth-child(12n):after {
+      content: "a";
       display: block;
       position: absolute;
       z-index: 1;
@@ -1069,7 +1096,7 @@ body {
   .item:nth-child(12n + 1) {
     background-color: darkblue; }
     .item:nth-child(12n + 1):before {
-      content: "";
+      content: "b";
       display: block;
       position: absolute;
       z-index: 1;
@@ -1090,9 +1117,10 @@ body {
     grid-template-columns: repeat(7, 1fr); }
   .item:nth-child(14n + 8) {
     background-color: darkgray;
-    grid-column: 7; }
-    .item:nth-child(14n + 8):before {
-      content: "";
+    grid-column: 7;
+    /*even line : from item to next: the - line, from right to left*/ }
+    .item:nth-child(14n + 8):after {
+      content: "a";
       display: block;
       position: absolute;
       z-index: 1;
@@ -1102,10 +1130,10 @@ body {
       width: calc(0% + var(--grid-h-gap));
       height: 0px;
       border-bottom: var(--line-thickness) solid gray; }
-    .item:nth-child(14n + 8):last-child::before {
+    .item:nth-child(14n + 8):last-child::after {
       border: none; }
   .item:nth-child(14n + 1):after {
-    content: "";
+    content: "a";
     display: block;
     position: absolute;
     z-index: 1;
@@ -1119,9 +1147,10 @@ body {
     border: none; }
   .item:nth-child(14n + 9) {
     background-color: darkgray;
-    grid-column: 6; }
-    .item:nth-child(14n + 9):before {
-      content: "";
+    grid-column: 6;
+    /*even line : from item to next: the - line, from right to left*/ }
+    .item:nth-child(14n + 9):after {
+      content: "a";
       display: block;
       position: absolute;
       z-index: 1;
@@ -1131,10 +1160,10 @@ body {
       width: calc(0% + var(--grid-h-gap));
       height: 0px;
       border-bottom: var(--line-thickness) solid gray; }
-    .item:nth-child(14n + 9):last-child::before {
+    .item:nth-child(14n + 9):last-child::after {
       border: none; }
   .item:nth-child(14n + 2):after {
-    content: "";
+    content: "a";
     display: block;
     position: absolute;
     z-index: 1;
@@ -1148,9 +1177,10 @@ body {
     border: none; }
   .item:nth-child(14n + 10) {
     background-color: darkgray;
-    grid-column: 5; }
-    .item:nth-child(14n + 10):before {
-      content: "";
+    grid-column: 5;
+    /*even line : from item to next: the - line, from right to left*/ }
+    .item:nth-child(14n + 10):after {
+      content: "a";
       display: block;
       position: absolute;
       z-index: 1;
@@ -1160,10 +1190,10 @@ body {
       width: calc(0% + var(--grid-h-gap));
       height: 0px;
       border-bottom: var(--line-thickness) solid gray; }
-    .item:nth-child(14n + 10):last-child::before {
+    .item:nth-child(14n + 10):last-child::after {
       border: none; }
   .item:nth-child(14n + 3):after {
-    content: "";
+    content: "a";
     display: block;
     position: absolute;
     z-index: 1;
@@ -1177,9 +1207,10 @@ body {
     border: none; }
   .item:nth-child(14n + 11) {
     background-color: darkgray;
-    grid-column: 4; }
-    .item:nth-child(14n + 11):before {
-      content: "";
+    grid-column: 4;
+    /*even line : from item to next: the - line, from right to left*/ }
+    .item:nth-child(14n + 11):after {
+      content: "a";
       display: block;
       position: absolute;
       z-index: 1;
@@ -1189,10 +1220,10 @@ body {
       width: calc(0% + var(--grid-h-gap));
       height: 0px;
       border-bottom: var(--line-thickness) solid gray; }
-    .item:nth-child(14n + 11):last-child::before {
+    .item:nth-child(14n + 11):last-child::after {
       border: none; }
   .item:nth-child(14n + 4):after {
-    content: "";
+    content: "a";
     display: block;
     position: absolute;
     z-index: 1;
@@ -1206,9 +1237,10 @@ body {
     border: none; }
   .item:nth-child(14n + 12) {
     background-color: darkgray;
-    grid-column: 3; }
-    .item:nth-child(14n + 12):before {
-      content: "";
+    grid-column: 3;
+    /*even line : from item to next: the - line, from right to left*/ }
+    .item:nth-child(14n + 12):after {
+      content: "a";
       display: block;
       position: absolute;
       z-index: 1;
@@ -1218,10 +1250,10 @@ body {
       width: calc(0% + var(--grid-h-gap));
       height: 0px;
       border-bottom: var(--line-thickness) solid gray; }
-    .item:nth-child(14n + 12):last-child::before {
+    .item:nth-child(14n + 12):last-child::after {
       border: none; }
   .item:nth-child(14n + 5):after {
-    content: "";
+    content: "a";
     display: block;
     position: absolute;
     z-index: 1;
@@ -1235,9 +1267,10 @@ body {
     border: none; }
   .item:nth-child(14n + 13) {
     background-color: darkgray;
-    grid-column: 2; }
-    .item:nth-child(14n + 13):before {
-      content: "";
+    grid-column: 2;
+    /*even line : from item to next: the - line, from right to left*/ }
+    .item:nth-child(14n + 13):after {
+      content: "a";
       display: block;
       position: absolute;
       z-index: 1;
@@ -1247,10 +1280,10 @@ body {
       width: calc(0% + var(--grid-h-gap));
       height: 0px;
       border-bottom: var(--line-thickness) solid gray; }
-    .item:nth-child(14n + 13):last-child::before {
+    .item:nth-child(14n + 13):last-child::after {
       border: none; }
   .item:nth-child(14n + 6):after {
-    content: "";
+    content: "a";
     display: block;
     position: absolute;
     z-index: 1;
@@ -1264,9 +1297,10 @@ body {
     border: none; }
   .item:nth-child(14n + 14) {
     background-color: darkgray;
-    grid-column: 1; }
-    .item:nth-child(14n + 14):before {
-      content: "";
+    grid-column: 1;
+    /*even line : from item to next: the - line, from right to left*/ }
+    .item:nth-child(14n + 14):after {
+      content: "a";
       display: block;
       position: absolute;
       z-index: 1;
@@ -1276,10 +1310,10 @@ body {
       width: calc(0% + var(--grid-h-gap));
       height: 0px;
       border-bottom: var(--line-thickness) solid gray; }
-    .item:nth-child(14n + 14):last-child::before {
+    .item:nth-child(14n + 14):last-child::after {
       border: none; }
   .item:nth-child(14n + 7):after {
-    content: "";
+    content: "a";
     display: block;
     position: absolute;
     z-index: 1;
@@ -1295,14 +1329,14 @@ body {
   .item:nth-child(14n + 7) {
     background-color: darkgreen; }
     .item:nth-child(14n + 7):after {
-      content: "";
+      content: "a";
       display: block;
       position: absolute;
       z-index: 1;
       top: 50%;
       left: 100%;
       transform: translateY(calc(-0.5 * var(--line-thickness)));
-      border: var(--line-thickness) solid green;
+      border: var(--line-thickness) solid lightgreen;
       border-top-right-radius: calc(var(--grid-h-gap) * 2);
       border-left: none;
       border-bottom: none;
@@ -1311,8 +1345,8 @@ body {
   /*odd line last visually (right): from odd line right bottom to even line right  (the ⮠ line*/
   .item:nth-child(14n + 8) {
     background-color: darkmagenta; }
-    .item:nth-child(14n + 8):after {
-      content: "";
+    .item:nth-child(14n + 8):before {
+      content: "b";
       display: block;
       position: absolute;
       z-index: 1;
@@ -1328,8 +1362,8 @@ body {
   /*even line 1st visually (left): from even line left  to odd line right  (the ⮦ line*/
   .item:nth-child(14n) {
     background-color: darkred; }
-    .item:nth-child(14n):before {
-      content: "";
+    .item:nth-child(14n):after {
+      content: "a";
       display: block;
       position: absolute;
       z-index: 1;
@@ -1346,7 +1380,7 @@ body {
   .item:nth-child(14n + 1) {
     background-color: darkblue; }
     .item:nth-child(14n + 1):before {
-      content: "";
+      content: "b";
       display: block;
       position: absolute;
       z-index: 1;

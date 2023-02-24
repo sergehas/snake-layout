@@ -2,6 +2,7 @@ body {
     font: 400 14px "Arial", sans-serif;
     counter-reset: num;
     box-sizing: border-box;
+    background-color: darkslategrey;
 }
 
 :root {
@@ -33,6 +34,13 @@ body {
     font-size: 2em;
     text-align: center;
     position: relative;
+    &::before,
+    &::after {
+        /*for debug*/
+        color: yellow;
+        font-size: 14px;
+        line-height: 100%;
+    }
 }
 
 @mixin gridify($cols) {
@@ -45,8 +53,9 @@ body {
         .item:nth-child(#{$cols * 2}n + #{$cols + 1 + $i}) {
             background-color: darkgray;
             grid-column: #{$cols - $i};
-            &:before {
-                content: "";
+            /*even line : from item to next: the - line, from right to left*/
+            &:after {
+                content: "a";
                 display: block;
                 position: absolute;
                 z-index: 1;
@@ -58,7 +67,7 @@ body {
                 border-bottom: var(--line-thickness) solid gray;
             }
             //when last item is in an even line
-            &:last-child::before {
+            &:last-child::after {
                 border: none;
             }
         }
@@ -66,7 +75,7 @@ body {
         .item:nth-child(#{$cols * 2}n + #{ $i + 1}) {
             //background-color: darkgray;
             &:after {
-                content: "";
+                content: "a";
                 display: block;
                 position: absolute;
                 z-index: 1;
@@ -89,14 +98,14 @@ body {
     .item:nth-child(#{$cols * 2}n + #{$cols}) {
         background-color: darkgreen;
         &:after {
-            content: "";
+            content: "a";
             display: block;
             position: absolute;
             z-index: 1;
             top: 50%;
             left: 100%;
             transform: translateY(calc(-0.5 * var(--line-thickness)));
-            border: var(--line-thickness) solid green;
+            border: var(--line-thickness) solid lightgreen;
             border-top-right-radius: calc(var(--grid-h-gap) * 2);
             border-left: none;
             border-bottom: none;
@@ -107,8 +116,8 @@ body {
     /*odd line last visually (right): from odd line right bottom to even line right  (the ⮠ line*/
     .item:nth-child(#{$cols * 2}n + #{$cols + 1}) {
         background-color: darkmagenta;
-        &:after {
-            content: "";
+        &:before {
+            content: "b";
             display: block;
             position: absolute;
             z-index: 1;
@@ -127,8 +136,8 @@ body {
     /*even line 1st visually (left): from even line left  to odd line right  (the ⮦ line*/
     .item:nth-child(#{$cols * 2}n) {
         background-color: darkred;
-        &:before {
-            content: "";
+        &:after {
+            content: "a";
             display: block;
             position: absolute;
             z-index: 1;
@@ -147,7 +156,7 @@ body {
     .item:nth-child(#{$cols *2}n + 1) {
         background-color: darkblue;
         &:before {
-            content: "";
+            content: "b";
             display: block;
             position: absolute;
             z-index: 1;
