@@ -1,19 +1,117 @@
+:root {
+    --grid-v-gap: 30px;
+    --grid-h-gap: 30px;
+    --line-thickness: 2px;
+    --line-radius: calc(var(--grid-h-gap) * 2);
+}
+
 body {
-    font: 400 14px "Arial", sans-serif;
+    font:
+        400 14px "Arial",
+        sans-serif;
     counter-reset: num;
     box-sizing: border-box;
-    background-color: darkslategrey;
 }
 
-:root {
-    --grid-v-gap: 20px;
-    --grid-h-gap: 20px;
-    --line-thickness: 5px;
+.item {
+    min-width: 100px;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    // default style
+    &::before,
+    &::after {
+        border-color: lightgray;
+        border-style: dotted;
+    }
+    //item content
+    .card {
+        width: 100%;
+        border: 1px solid lightgray;
+        color: lightgray;
+        background-color: rgb(231, 231, 231);
+        border-radius: 10px;
+        padding: 6px;
+        max-height: 100px;
+        min-height: 40px;
+
+        h3 {
+            margin: 0;
+            padding: 0;
+            // font: 400 14px "Arial", sans-serif;
+        }
+        .content {
+            text-overflow: ellipsis;
+            overflow: hidden;
+            // Addition lines for 2 line or multiline ellipsis
+            display: -webkit-box !important;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            white-space: normal;
+        }
+        span.tag {
+            background-color: white;
+            border-radius: 50%;
+            font-weight: 900;
+            font-size: 12px;
+            width: 26px;
+            height: 26px;
+            text-align: center;
+            vertical-align: middle;
+            display: table-cell;
+            margin: 6px;
+        }
+    }
+    &.success {
+        &::after,
+        &::before {
+            border-color: rgb(4, 204, 4);
+            border-style: solid;
+        }
+        .card {
+            border-color: rgb(4, 204, 4);
+            background-color: rgb(4, 204, 4);
+            color: white;
+            span.tag {
+                color: rgb(4, 204, 4);
+            }
+        }
+    }
+    &.warning {
+        &::after,
+        &::before {
+            border-color: rgb(204, 191, 4);
+            border-style: solid;
+        }
+        .card {
+            border-color: rgb(204, 191, 4);
+            background-color: rgb(204, 191, 4);
+            color: white;
+            span.tag {
+                color: rgb(204, 157, 4);
+            }
+        }
+    }
+    &.failure {
+        &::after,
+        &::before {
+            border-color: rgb(219, 8, 18);
+            border-style: solid;
+        }
+        .card {
+            border-color: rgb(219, 8, 18);
+            background-color: rgb(219, 8, 18);
+            color: white;
+            span.tag {
+                color: rgb(219, 8, 18);
+            }
+        }
+    }
 }
 
+/// layout
 .flex-container {
-    /* width: 500px; */
-    background: orange;
     display: grid;
     /*define the number of column*/
     grid-auto-flow: dense;
@@ -26,20 +124,15 @@ body {
 }
 
 .item {
-    background: black;
-    height: 80px;
-    line-height: 80px;
-    color: white;
-    font-weight: bold;
-    font-size: 2em;
-    text-align: center;
     position: relative;
     &::before,
     &::after {
-        /*for debug*/
-        color: yellow;
-        font-size: 14px;
-        line-height: 100%;
+        border-width: var(--line-thickness);
+        display: block;
+        position: absolute;
+    }
+    &::after {
+        content: "";
     }
 }
 
@@ -51,21 +144,23 @@ body {
     @for $i from 0 through $cols - 1 {
         // even line items (display order: from right to left)
         .item:nth-child(#{$cols * 2}n + #{$cols + 1 + $i}) {
-            background-color: darkgray;
             grid-column: #{$cols - $i};
-            /*even line : from item to next: the - line, from right to left*/
             &:after {
-                content: "a";
-                display: block;
-                position: absolute;
-                z-index: 1;
-                top: 50%;
-                right: 100%;
-                transform: translateY(-50%);
-                width: calc(0% + var(--grid-h-gap));
-                height: 0px;
-                border-bottom: var(--line-thickness) solid gray;
+                @if ($cols + 1 + $i) != ($cols * 2) {
+                    /*even line : from item to next: the - line, from right to left*/
+                    top: 50%;
+                    right: 100%;
+                    transform: translateY(calc(-0.5 * var(--line-thickness)));
+                    width: calc(0% + var(--grid-h-gap));
+                    height: 0px;
+                    border-left: none;
+                    border-top: none;
+                    border-right: none;
+                }
             }
+            // &:after {
+            // }
+
             //when last item is in an even line
             &:last-child::after {
                 border: none;
@@ -73,18 +168,18 @@ body {
         }
         // odd line items (display order: from left to right)
         .item:nth-child(#{$cols * 2}n + #{ $i + 1}) {
-            //background-color: darkgray;
-            &:after {
-                content: "a";
-                display: block;
-                position: absolute;
-                z-index: 1;
-                bottom: 50%;
-                left: 100%;
-                transform: translateY(-50%);
-                width: calc(0% + var(--grid-h-gap));
-                height: 0px;
-                border-bottom: var(--line-thickness) solid white;
+            @if $i + 1 != $cols {
+                /*odd line : from item to next: the - line, from left to right*/
+                &:after {
+                    bottom: 50%;
+                    left: 100%;
+                    transform: translateY(calc(0.5 * var(--line-thickness)));
+                    width: calc(0% + var(--grid-h-gap));
+                    height: 0px;
+                    border-left: none;
+                    border-top: none;
+                    border-right: none;
+                }
             }
             //when is last item  is in an odd line
             &:last-child::after {
@@ -96,79 +191,59 @@ body {
     // end & start of rows
     /*odd line last visually (right): from even line right top to bottom line right  (the ⮧ line)*/
     .item:nth-child(#{$cols * 2}n + #{$cols}) {
-        background-color: darkgreen;
         &:after {
-            content: "a";
-            display: block;
-            position: absolute;
-            z-index: 1;
             top: 50%;
             left: 100%;
             transform: translateY(calc(-0.5 * var(--line-thickness)));
-            border: var(--line-thickness) solid lightgreen;
-            border-top-right-radius: calc(var(--grid-h-gap) * 2);
+            border-top-right-radius: var(--line-radius);
             border-left: none;
             border-bottom: none;
             width: calc(var(--grid-h-gap));
-            height: calc((100% + var(--grid-v-gap)) * 0.5);
+            height: calc((100% + var(--grid-v-gap) - var(--line-thickness)) * 0.5);
         }
     }
     /*odd line last visually (right): from odd line right bottom to even line right  (the ⮠ line*/
     .item:nth-child(#{$cols * 2}n + #{$cols + 1}) {
-        background-color: darkmagenta;
         &:before {
-            content: "b";
-            display: block;
-            position: absolute;
-            z-index: 1;
+            content: "";
             bottom: 50%;
             left: 100%;
             transform: translateY(calc(0.5 * var(--line-thickness)));
-            border: var(--line-thickness) solid magenta;
-            border-bottom-right-radius: calc(var(--grid-h-gap) * 2);
+            border-bottom-right-radius: var(--line-radius);
             border-left: none;
             border-top: none;
             width: calc(0% + var(--grid-h-gap));
-            height: calc((100% + var(--grid-v-gap)) * 0.5);
+            height: calc((100% + var(--grid-v-gap) - var(--line-thickness)) * 0.5);
         }
     }
 
     /*even line 1st visually (left): from even line left  to odd line right  (the ⮦ line*/
     .item:nth-child(#{$cols * 2}n) {
-        background-color: darkred;
         &:after {
-            content: "a";
-            display: block;
-            position: absolute;
-            z-index: 1;
             top: 50%;
             right: 100%;
             transform: translateY(calc(-0.5 * var(--line-thickness)));
-            border: var(--line-thickness) solid red;
-            border-top-left-radius: calc(var(--grid-h-gap) * 2);
+            // border: var(--line-thickness) solid red;
+            border-top-left-radius: var(--line-radius);
             border-right: none;
             border-bottom: none;
             width: calc(0% + var(--grid-h-gap));
-            height: calc((100% + var(--grid-v-gap)) * 0.5);
+            height: calc((100% + var(--grid-v-gap) - var(--line-thickness)) * 0.5);
         }
     }
     /*odd line 1st visually (left): from even line left bottom to odd line left  (the ⮡ line*/
     .item:nth-child(#{$cols *2}n + 1) {
-        background-color: darkblue;
         &:before {
-            content: "b";
-            display: block;
-            position: absolute;
-            z-index: 1;
+            content: "";
             bottom: 50%;
             right: 100%;
             transform: translateY(calc(0.5 * var(--line-thickness)));
-            border: var(--line-thickness) solid blue;
-            border-bottom-left-radius: calc(var(--grid-h-gap) * 2);
+            // border: var(--line-thickness) solid blue;
+            border-bottom-left-radius: var(--line-radius);
             border-right: none;
             border-top: none;
             width: calc(0% + var(--grid-h-gap));
-            height: calc((100% + var(--grid-v-gap)) * 0.5);
+            height: calc((100% + var(--grid-v-gap) - var(--line-thickness)) * 0.5);
         }
     }
 
