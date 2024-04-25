@@ -1,7 +1,12 @@
+$grid-h-gap: 60px;
+$grid-v-gap: 30px;
+$item-min-width: 130px;
+
 :root {
-    --grid-v-gap: 30px;
-    --grid-h-gap: 30px;
-    --line-thickness: 2px;
+    --grid-v-gap: #{$grid-v-gap};
+    --grid-h-gap: #{$grid-h-gap};
+    --item-min-width: #{$item-min-width};
+    --line-thickness: 4px; //use a multiple of 2 to avoid glitches
     --line-radius: calc(var(--grid-h-gap) * 2);
 }
 
@@ -14,7 +19,7 @@ body {
 }
 
 .item {
-    min-width: 100px;
+    min-width: var(--item-min-width);
     margin: 0;
     padding: 0;
     display: flex;
@@ -251,30 +256,27 @@ body {
         border: none;
     }
 }
+@mixin columnify($max-screen-width, $item-min-width, $h-gap) {
+    /*automatically compute the number of cols*/
+    $col-width: $item-min-width + $h-gap;
+    $nb-cols: round($max-screen-width / $col-width);
 
-@media screen and (max-width: 200px) {
-    @include gridify(1);
+    @for $i from 1 through $nb-cols {
+        $screen-min: $col-width * $i + $h-gap;
+        $screen-max: $screen-min + $col-width -1;
+        @if $i ==1 {
+            @media screen and (max-width: $screen-max) {
+                @include gridify($i);
+            }
+        } @else if $i==$nb-cols {
+            @media screen and (min-width: $screen-min) {
+                @include gridify($i);
+            }
+        } @else {
+            @media screen and (min-width: $screen-min) and (max-width: $screen-max) {
+                @include gridify($i);
+            }
+        }
+    }
 }
-
-@media screen and (min-width: 201px) and (max-width: 300px) {
-    @include gridify(2);
-}
-
-@media screen and (min-width: 301px) and (max-width: 460px) {
-    @include gridify(3);
-}
-
-@media screen and (min-width: 461px) and (max-width: 720px) {
-    @include gridify(4);
-}
-
-@media screen and (min-width: 721px) and (max-width: 960px) {
-    @include gridify(5);
-}
-@media screen and (min-width: 961px) and (max-width: 1080px) {
-    @include gridify(6);
-}
-
-@media screen and (min-width: 1081px) {
-    @include gridify(7);
-}
+@include columnify(1920px, $item-min-width, $grid-h-gap);
