@@ -1,33 +1,20 @@
+@import "snake";
+
 body {
-    font:
-        400 14px "Arial",
-        sans-serif;
-    counter-reset: num;
-    box-sizing: border-box;
     background-color: darkslategrey;
 }
-
-:root {
-    --grid-v-gap: 20px;
-    --grid-h-gap: 20px;
-    --line-thickness: 5px;
-}
+$grid-h-gap: 30px;
+$item-min-width: 90px;
 
 .flex-container {
-    /* width: 500px; */
     background: orange;
-    display: grid;
-    /*define the number of column*/
-    grid-auto-flow: dense;
-    /* this is important to fill all the space*/
-    grid-row-gap: var(--grid-v-gap);
-    grid-column-gap: var(--grid-h-gap);
-    /* padding: 10px; */
-    margin-right: calc(var(--line-thickness) + var(--grid-h-gap));
-    margin-left: calc(var(--line-thickness) + var(--grid-h-gap));
+    --grid-h-gap: #{$grid-h-gap};
+    --item-min-width: #{$item-min-width};
+    --line-thickness: 6px;
 }
 
 .item {
+    min-width: var(--item-min-width);
     background: black;
     height: 80px;
     line-height: 80px;
@@ -35,174 +22,22 @@ body {
     font-weight: bold;
     font-size: 2em;
     text-align: center;
-    position: relative;
-    min-width: 90px;
     &::before,
     &::after {
-        /*for debug*/
         color: red;
         font-size: 14px;
-        line-height: 100%;
+        border-style: double;
+        //line-height: 100%;
+    }
+    &::after {
+        color: red;
+    }
+    &::before {
+        color: green;
+    }
+    & > div {
+        display: none;
     }
 }
 
-@mixin gridify($cols) {
-    .flex-container {
-        grid-template-columns: repeat($cols, 1fr);
-    }
-
-    @for $i from 0 through $cols - 1 {
-        // even line items (display order: from right to left)
-        .item:nth-child(#{$cols * 2}n + #{$cols + 1 + $i}) {
-            background-color: darkgray;
-            grid-column: #{$cols - $i};
-            /*even line : from item to next: the - line, from right to left*/
-            &:after {
-                content: "a";
-                display: block;
-                position: absolute;
-                z-index: 1;
-                top: 50%;
-                right: 100%;
-                transform: translateY(-50%);
-                width: calc(0% + var(--grid-h-gap));
-                height: 0px;
-                border-bottom: var(--line-thickness) solid gray;
-            }
-            //when last item is in an even line
-            &:last-child::after {
-                border: none;
-            }
-        }
-        // odd line items (display order: from left to right)
-        .item:nth-child(#{$cols * 2}n + #{ $i + 1}) {
-            //background-color: darkgray;
-            &:after {
-                content: "a";
-                display: block;
-                position: absolute;
-                z-index: 1;
-                bottom: 50%;
-                left: 100%;
-                transform: translateY(-50%);
-                width: calc(0% + var(--grid-h-gap));
-                height: 0px;
-                border-bottom: var(--line-thickness) solid white;
-            }
-            //when is last item  is in an odd line
-            &:last-child::after {
-                border: none;
-            }
-        }
-    }
-
-    // end & start of rows
-    /*odd line last visually (right): from even line right top to bottom line right  (the ⮧ line)*/
-    .item:nth-child(#{$cols * 2}n + #{$cols}) {
-        background-color: darkgreen;
-        &:after {
-            content: "a";
-            display: block;
-            position: absolute;
-            z-index: 1;
-            top: 50%;
-            left: 100%;
-            transform: translateY(calc(-0.5 * var(--line-thickness)));
-            border: var(--line-thickness) solid lightgreen;
-            border-top-right-radius: calc(var(--grid-h-gap) * 2);
-            border-left: none;
-            border-bottom: none;
-            width: calc(var(--grid-h-gap));
-            height: calc((100% + var(--grid-v-gap)) * 0.5);
-        }
-    }
-    /*odd line last visually (right): from odd line right bottom to even line right  (the ⮠ line*/
-    .item:nth-child(#{$cols * 2}n + #{$cols + 1}) {
-        background-color: darkmagenta;
-        &:before {
-            content: "b";
-            display: block;
-            position: absolute;
-            z-index: 1;
-            bottom: 50%;
-            left: 100%;
-            transform: translateY(calc(0.5 * var(--line-thickness)));
-            border: var(--line-thickness) solid magenta;
-            border-bottom-right-radius: calc(var(--grid-h-gap) * 2);
-            border-left: none;
-            border-top: none;
-            width: calc(0% + var(--grid-h-gap));
-            height: calc((100% + var(--grid-v-gap)) * 0.5);
-        }
-    }
-
-    /*even line 1st visually (left): from even line left  to odd line right  (the ⮦ line*/
-    .item:nth-child(#{$cols * 2}n) {
-        background-color: darkred;
-        &:after {
-            content: "a";
-            display: block;
-            position: absolute;
-            z-index: 1;
-            top: 50%;
-            right: 100%;
-            transform: translateY(calc(-0.5 * var(--line-thickness)));
-            border: var(--line-thickness) solid red;
-            border-top-left-radius: calc(var(--grid-h-gap) * 2);
-            border-right: none;
-            border-bottom: none;
-            width: calc(0% + var(--grid-h-gap));
-            height: calc((100% + var(--grid-v-gap)) * 0.5);
-        }
-    }
-    /*odd line 1st visually (left): from even line left bottom to odd line left  (the ⮡ line*/
-    .item:nth-child(#{$cols *2}n + 1) {
-        background-color: darkblue;
-        &:before {
-            content: "b";
-            display: block;
-            position: absolute;
-            z-index: 1;
-            bottom: 50%;
-            right: 100%;
-            transform: translateY(calc(0.5 * var(--line-thickness)));
-            border: var(--line-thickness) solid blue;
-            border-bottom-left-radius: calc(var(--grid-h-gap) * 2);
-            border-right: none;
-            border-top: none;
-            width: calc(0% + var(--grid-h-gap));
-            height: calc((100% + var(--grid-v-gap)) * 0.5);
-        }
-    }
-
-    .item:first-child:before {
-        border: none;
-    }
-}
-
-@media screen and (max-width: 200px) {
-    @include gridify(1);
-}
-
-@media screen and (min-width: 201px) and (max-width: 300px) {
-    @include gridify(2);
-}
-
-@media screen and (min-width: 301px) and (max-width: 460px) {
-    @include gridify(3);
-}
-
-@media screen and (min-width: 461px) and (max-width: 720px) {
-    @include gridify(4);
-}
-
-@media screen and (min-width: 721px) and (max-width: 960px) {
-    @include gridify(5);
-}
-@media screen and (min-width: 961px) and (max-width: 1080px) {
-    @include gridify(6);
-}
-
-@media screen and (min-width: 1081px) {
-    @include gridify(7);
-}
+@include auto-cols(1920px, $item-min-width, $grid-h-gap);

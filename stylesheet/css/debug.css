@@ -1,18 +1,12 @@
 @charset "UTF-8";
-body {
-  font: 400 14px "Arial", sans-serif;
-  counter-reset: num;
-  box-sizing: border-box;
-  background-color: darkslategrey; }
-
-:root {
-  --grid-v-gap: 20px;
-  --grid-h-gap: 20px;
-  --line-thickness: 5px; }
+.flex-container {
+  --grid-v-gap: 32px;
+  --grid-h-gap: 32px;
+  --item-min-width: 100px;
+  --line-thickness: 2px;
+  --line-radius: calc(var(--grid-h-gap) * 2); }
 
 .flex-container {
-  /* width: 500px; */
-  background: orange;
   display: grid;
   /*define the number of column*/
   grid-auto-flow: dense;
@@ -24,1375 +18,4144 @@ body {
   margin-left: calc(var(--line-thickness) + var(--grid-h-gap)); }
 
 .item {
+  position: relative; }
+  .item::before, .item::after {
+    border-width: var(--line-thickness);
+    display: block;
+    position: absolute; }
+  .item::after {
+    content: ""; }
+
+body {
+  background-color: darkslategrey; }
+
+.flex-container {
+  background: orange;
+  --grid-h-gap: 30px;
+  --item-min-width: 90px;
+  --line-thickness: 6px; }
+
+.item {
+  min-width: var(--item-min-width);
   background: black;
   height: 80px;
   line-height: 80px;
   color: white;
   font-weight: bold;
   font-size: 2em;
-  text-align: center;
-  position: relative;
-  min-width: 90px; }
+  text-align: center; }
   .item::before, .item::after {
-    /*for debug*/
     color: red;
     font-size: 14px;
-    line-height: 100%; }
+    border-style: double; }
+  .item::after {
+    color: red; }
+  .item::before {
+    color: green; }
+  .item > div {
+    display: none; }
 
-@media screen and (max-width: 200px) {
+/*automatically compute the number of cols*/
+@media screen and (max-width: 269px) {
   .flex-container {
     grid-template-columns: repeat(1, 1fr); }
   .item:nth-child(2n + 2) {
-    background-color: darkgray;
-    grid-column: 1;
-    /*even line : from item to next: the - line, from right to left*/ }
-    .item:nth-child(2n + 2):after {
-      content: "a";
-      display: block;
-      position: absolute;
-      z-index: 1;
-      top: 50%;
-      right: 100%;
-      transform: translateY(-50%);
-      width: calc(0% + var(--grid-h-gap));
-      height: 0px;
-      border-bottom: var(--line-thickness) solid gray; }
+    grid-column: 1; }
     .item:nth-child(2n + 2):last-child::after {
       border: none; }
-  .item:nth-child(2n + 1):after {
-    content: "a";
-    display: block;
-    position: absolute;
-    z-index: 1;
-    bottom: 50%;
-    left: 100%;
-    transform: translateY(-50%);
-    width: calc(0% + var(--grid-h-gap));
-    height: 0px;
-    border-bottom: var(--line-thickness) solid white; }
   .item:nth-child(2n + 1):last-child::after {
     border: none; }
   /*odd line last visually (right): from even line right top to bottom line right  (the ⮧ line)*/
-  .item:nth-child(2n + 1) {
-    background-color: darkgreen; }
-    .item:nth-child(2n + 1):after {
-      content: "a";
-      display: block;
-      position: absolute;
-      z-index: 1;
-      top: 50%;
-      left: 100%;
-      transform: translateY(calc(-0.5 * var(--line-thickness)));
-      border: var(--line-thickness) solid lightgreen;
-      border-top-right-radius: calc(var(--grid-h-gap) * 2);
-      border-left: none;
-      border-bottom: none;
-      width: calc(var(--grid-h-gap));
-      height: calc((100% + var(--grid-v-gap)) * 0.5); }
+  .item:nth-child(2n + 1):after {
+    top: 50%;
+    left: 100%;
+    transform: translateY(calc(-0.5 * var(--line-thickness)));
+    border-top-right-radius: var(--line-radius);
+    border-left: none;
+    border-bottom: none;
+    width: calc(var(--grid-h-gap));
+    height: calc((100% + var(--grid-v-gap) - var(--line-thickness)) * 0.5); }
   /*odd line last visually (right): from odd line right bottom to even line right  (the ⮠ line*/
-  .item:nth-child(2n + 2) {
-    background-color: darkmagenta; }
-    .item:nth-child(2n + 2):before {
-      content: "b";
-      display: block;
-      position: absolute;
-      z-index: 1;
-      bottom: 50%;
-      left: 100%;
-      transform: translateY(calc(0.5 * var(--line-thickness)));
-      border: var(--line-thickness) solid magenta;
-      border-bottom-right-radius: calc(var(--grid-h-gap) * 2);
-      border-left: none;
-      border-top: none;
-      width: calc(0% + var(--grid-h-gap));
-      height: calc((100% + var(--grid-v-gap)) * 0.5); }
+  .item:nth-child(2n + 2):before {
+    content: "";
+    bottom: 50%;
+    left: 100%;
+    transform: translateY(calc(0.5 * var(--line-thickness)));
+    border-bottom-right-radius: var(--line-radius);
+    border-left: none;
+    border-top: none;
+    width: calc(0% + var(--grid-h-gap));
+    height: calc((100% + var(--grid-v-gap) - var(--line-thickness)) * 0.5); }
   /*even line 1st visually (left): from even line left  to odd line right  (the ⮦ line*/
-  .item:nth-child(2n) {
-    background-color: darkred; }
-    .item:nth-child(2n):after {
-      content: "a";
-      display: block;
-      position: absolute;
-      z-index: 1;
-      top: 50%;
-      right: 100%;
-      transform: translateY(calc(-0.5 * var(--line-thickness)));
-      border: var(--line-thickness) solid red;
-      border-top-left-radius: calc(var(--grid-h-gap) * 2);
-      border-right: none;
-      border-bottom: none;
-      width: calc(0% + var(--grid-h-gap));
-      height: calc((100% + var(--grid-v-gap)) * 0.5); }
+  .item:nth-child(2n):after {
+    top: 50%;
+    right: 100%;
+    transform: translateY(calc(-0.5 * var(--line-thickness)));
+    border-top-left-radius: var(--line-radius);
+    border-right: none;
+    border-bottom: none;
+    width: calc(0% + var(--grid-h-gap));
+    height: calc((100% + var(--grid-v-gap) - var(--line-thickness)) * 0.5); }
   /*odd line 1st visually (left): from even line left bottom to odd line left  (the ⮡ line*/
-  .item:nth-child(2n + 1) {
-    background-color: darkblue; }
-    .item:nth-child(2n + 1):before {
-      content: "b";
-      display: block;
-      position: absolute;
-      z-index: 1;
-      bottom: 50%;
-      right: 100%;
-      transform: translateY(calc(0.5 * var(--line-thickness)));
-      border: var(--line-thickness) solid blue;
-      border-bottom-left-radius: calc(var(--grid-h-gap) * 2);
-      border-right: none;
-      border-top: none;
-      width: calc(0% + var(--grid-h-gap));
-      height: calc((100% + var(--grid-v-gap)) * 0.5); }
+  .item:nth-child(2n + 1):before {
+    content: "";
+    bottom: 50%;
+    right: 100%;
+    transform: translateY(calc(0.5 * var(--line-thickness)));
+    border-bottom-left-radius: var(--line-radius);
+    border-right: none;
+    border-top: none;
+    width: calc(0% + var(--grid-h-gap));
+    height: calc((100% + var(--grid-v-gap) - var(--line-thickness)) * 0.5); }
   .item:first-child:before {
     border: none; } }
 
-@media screen and (min-width: 201px) and (max-width: 300px) {
+@media screen and (min-width: 270px) and (max-width: 389px) {
   .flex-container {
     grid-template-columns: repeat(2, 1fr); }
   .item:nth-child(4n + 3) {
-    background-color: darkgray;
-    grid-column: 2;
-    /*even line : from item to next: the - line, from right to left*/ }
+    grid-column: 2; }
     .item:nth-child(4n + 3):after {
-      content: "a";
-      display: block;
-      position: absolute;
-      z-index: 1;
+      /*even line : from item to next: the - line, from right to left*/
       top: 50%;
       right: 100%;
-      transform: translateY(-50%);
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
       width: calc(0% + var(--grid-h-gap));
       height: 0px;
-      border-bottom: var(--line-thickness) solid gray; }
+      border-left: none;
+      border-top: none;
+      border-right: none; }
     .item:nth-child(4n + 3):last-child::after {
       border: none; }
-  .item:nth-child(4n + 1):after {
-    content: "a";
-    display: block;
-    position: absolute;
-    z-index: 1;
-    bottom: 50%;
-    left: 100%;
-    transform: translateY(-50%);
-    width: calc(0% + var(--grid-h-gap));
-    height: 0px;
-    border-bottom: var(--line-thickness) solid white; }
-  .item:nth-child(4n + 1):last-child::after {
-    border: none; }
-  .item:nth-child(4n + 4) {
-    background-color: darkgray;
-    grid-column: 1;
-    /*even line : from item to next: the - line, from right to left*/ }
-    .item:nth-child(4n + 4):after {
-      content: "a";
-      display: block;
-      position: absolute;
-      z-index: 1;
-      top: 50%;
-      right: 100%;
-      transform: translateY(-50%);
+  .item:nth-child(4n + 1) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(4n + 1):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
       width: calc(0% + var(--grid-h-gap));
       height: 0px;
-      border-bottom: var(--line-thickness) solid gray; }
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(4n + 1):last-child::after {
+      border: none; }
+  .item:nth-child(4n + 4) {
+    grid-column: 1; }
     .item:nth-child(4n + 4):last-child::after {
       border: none; }
-  .item:nth-child(4n + 2):after {
-    content: "a";
-    display: block;
-    position: absolute;
-    z-index: 1;
-    bottom: 50%;
-    left: 100%;
-    transform: translateY(-50%);
-    width: calc(0% + var(--grid-h-gap));
-    height: 0px;
-    border-bottom: var(--line-thickness) solid white; }
   .item:nth-child(4n + 2):last-child::after {
     border: none; }
   /*odd line last visually (right): from even line right top to bottom line right  (the ⮧ line)*/
-  .item:nth-child(4n + 2) {
-    background-color: darkgreen; }
-    .item:nth-child(4n + 2):after {
-      content: "a";
-      display: block;
-      position: absolute;
-      z-index: 1;
-      top: 50%;
-      left: 100%;
-      transform: translateY(calc(-0.5 * var(--line-thickness)));
-      border: var(--line-thickness) solid lightgreen;
-      border-top-right-radius: calc(var(--grid-h-gap) * 2);
-      border-left: none;
-      border-bottom: none;
-      width: calc(var(--grid-h-gap));
-      height: calc((100% + var(--grid-v-gap)) * 0.5); }
+  .item:nth-child(4n + 2):after {
+    top: 50%;
+    left: 100%;
+    transform: translateY(calc(-0.5 * var(--line-thickness)));
+    border-top-right-radius: var(--line-radius);
+    border-left: none;
+    border-bottom: none;
+    width: calc(var(--grid-h-gap));
+    height: calc((100% + var(--grid-v-gap) - var(--line-thickness)) * 0.5); }
   /*odd line last visually (right): from odd line right bottom to even line right  (the ⮠ line*/
-  .item:nth-child(4n + 3) {
-    background-color: darkmagenta; }
-    .item:nth-child(4n + 3):before {
-      content: "b";
-      display: block;
-      position: absolute;
-      z-index: 1;
-      bottom: 50%;
-      left: 100%;
-      transform: translateY(calc(0.5 * var(--line-thickness)));
-      border: var(--line-thickness) solid magenta;
-      border-bottom-right-radius: calc(var(--grid-h-gap) * 2);
-      border-left: none;
-      border-top: none;
-      width: calc(0% + var(--grid-h-gap));
-      height: calc((100% + var(--grid-v-gap)) * 0.5); }
+  .item:nth-child(4n + 3):before {
+    content: "";
+    bottom: 50%;
+    left: 100%;
+    transform: translateY(calc(0.5 * var(--line-thickness)));
+    border-bottom-right-radius: var(--line-radius);
+    border-left: none;
+    border-top: none;
+    width: calc(0% + var(--grid-h-gap));
+    height: calc((100% + var(--grid-v-gap) - var(--line-thickness)) * 0.5); }
   /*even line 1st visually (left): from even line left  to odd line right  (the ⮦ line*/
-  .item:nth-child(4n) {
-    background-color: darkred; }
-    .item:nth-child(4n):after {
-      content: "a";
-      display: block;
-      position: absolute;
-      z-index: 1;
-      top: 50%;
-      right: 100%;
-      transform: translateY(calc(-0.5 * var(--line-thickness)));
-      border: var(--line-thickness) solid red;
-      border-top-left-radius: calc(var(--grid-h-gap) * 2);
-      border-right: none;
-      border-bottom: none;
-      width: calc(0% + var(--grid-h-gap));
-      height: calc((100% + var(--grid-v-gap)) * 0.5); }
+  .item:nth-child(4n):after {
+    top: 50%;
+    right: 100%;
+    transform: translateY(calc(-0.5 * var(--line-thickness)));
+    border-top-left-radius: var(--line-radius);
+    border-right: none;
+    border-bottom: none;
+    width: calc(0% + var(--grid-h-gap));
+    height: calc((100% + var(--grid-v-gap) - var(--line-thickness)) * 0.5); }
   /*odd line 1st visually (left): from even line left bottom to odd line left  (the ⮡ line*/
-  .item:nth-child(4n + 1) {
-    background-color: darkblue; }
-    .item:nth-child(4n + 1):before {
-      content: "b";
-      display: block;
-      position: absolute;
-      z-index: 1;
-      bottom: 50%;
-      right: 100%;
-      transform: translateY(calc(0.5 * var(--line-thickness)));
-      border: var(--line-thickness) solid blue;
-      border-bottom-left-radius: calc(var(--grid-h-gap) * 2);
-      border-right: none;
-      border-top: none;
-      width: calc(0% + var(--grid-h-gap));
-      height: calc((100% + var(--grid-v-gap)) * 0.5); }
+  .item:nth-child(4n + 1):before {
+    content: "";
+    bottom: 50%;
+    right: 100%;
+    transform: translateY(calc(0.5 * var(--line-thickness)));
+    border-bottom-left-radius: var(--line-radius);
+    border-right: none;
+    border-top: none;
+    width: calc(0% + var(--grid-h-gap));
+    height: calc((100% + var(--grid-v-gap) - var(--line-thickness)) * 0.5); }
   .item:first-child:before {
     border: none; } }
 
-@media screen and (min-width: 301px) and (max-width: 460px) {
+@media screen and (min-width: 390px) and (max-width: 509px) {
   .flex-container {
     grid-template-columns: repeat(3, 1fr); }
   .item:nth-child(6n + 4) {
-    background-color: darkgray;
-    grid-column: 3;
-    /*even line : from item to next: the - line, from right to left*/ }
+    grid-column: 3; }
     .item:nth-child(6n + 4):after {
-      content: "a";
-      display: block;
-      position: absolute;
-      z-index: 1;
+      /*even line : from item to next: the - line, from right to left*/
       top: 50%;
       right: 100%;
-      transform: translateY(-50%);
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
       width: calc(0% + var(--grid-h-gap));
       height: 0px;
-      border-bottom: var(--line-thickness) solid gray; }
+      border-left: none;
+      border-top: none;
+      border-right: none; }
     .item:nth-child(6n + 4):last-child::after {
       border: none; }
-  .item:nth-child(6n + 1):after {
-    content: "a";
-    display: block;
-    position: absolute;
-    z-index: 1;
-    bottom: 50%;
-    left: 100%;
-    transform: translateY(-50%);
-    width: calc(0% + var(--grid-h-gap));
-    height: 0px;
-    border-bottom: var(--line-thickness) solid white; }
-  .item:nth-child(6n + 1):last-child::after {
-    border: none; }
-  .item:nth-child(6n + 5) {
-    background-color: darkgray;
-    grid-column: 2;
-    /*even line : from item to next: the - line, from right to left*/ }
-    .item:nth-child(6n + 5):after {
-      content: "a";
-      display: block;
-      position: absolute;
-      z-index: 1;
-      top: 50%;
-      right: 100%;
-      transform: translateY(-50%);
+  .item:nth-child(6n + 1) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(6n + 1):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
       width: calc(0% + var(--grid-h-gap));
       height: 0px;
-      border-bottom: var(--line-thickness) solid gray; }
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(6n + 1):last-child::after {
+      border: none; }
+  .item:nth-child(6n + 5) {
+    grid-column: 2; }
+    .item:nth-child(6n + 5):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
     .item:nth-child(6n + 5):last-child::after {
       border: none; }
-  .item:nth-child(6n + 2):after {
-    content: "a";
-    display: block;
-    position: absolute;
-    z-index: 1;
-    bottom: 50%;
-    left: 100%;
-    transform: translateY(-50%);
-    width: calc(0% + var(--grid-h-gap));
-    height: 0px;
-    border-bottom: var(--line-thickness) solid white; }
-  .item:nth-child(6n + 2):last-child::after {
-    border: none; }
-  .item:nth-child(6n + 6) {
-    background-color: darkgray;
-    grid-column: 1;
-    /*even line : from item to next: the - line, from right to left*/ }
-    .item:nth-child(6n + 6):after {
-      content: "a";
-      display: block;
-      position: absolute;
-      z-index: 1;
-      top: 50%;
-      right: 100%;
-      transform: translateY(-50%);
+  .item:nth-child(6n + 2) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(6n + 2):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
       width: calc(0% + var(--grid-h-gap));
       height: 0px;
-      border-bottom: var(--line-thickness) solid gray; }
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(6n + 2):last-child::after {
+      border: none; }
+  .item:nth-child(6n + 6) {
+    grid-column: 1; }
     .item:nth-child(6n + 6):last-child::after {
       border: none; }
-  .item:nth-child(6n + 3):after {
-    content: "a";
-    display: block;
-    position: absolute;
-    z-index: 1;
-    bottom: 50%;
-    left: 100%;
-    transform: translateY(-50%);
-    width: calc(0% + var(--grid-h-gap));
-    height: 0px;
-    border-bottom: var(--line-thickness) solid white; }
   .item:nth-child(6n + 3):last-child::after {
     border: none; }
   /*odd line last visually (right): from even line right top to bottom line right  (the ⮧ line)*/
-  .item:nth-child(6n + 3) {
-    background-color: darkgreen; }
-    .item:nth-child(6n + 3):after {
-      content: "a";
-      display: block;
-      position: absolute;
-      z-index: 1;
-      top: 50%;
-      left: 100%;
-      transform: translateY(calc(-0.5 * var(--line-thickness)));
-      border: var(--line-thickness) solid lightgreen;
-      border-top-right-radius: calc(var(--grid-h-gap) * 2);
-      border-left: none;
-      border-bottom: none;
-      width: calc(var(--grid-h-gap));
-      height: calc((100% + var(--grid-v-gap)) * 0.5); }
+  .item:nth-child(6n + 3):after {
+    top: 50%;
+    left: 100%;
+    transform: translateY(calc(-0.5 * var(--line-thickness)));
+    border-top-right-radius: var(--line-radius);
+    border-left: none;
+    border-bottom: none;
+    width: calc(var(--grid-h-gap));
+    height: calc((100% + var(--grid-v-gap) - var(--line-thickness)) * 0.5); }
   /*odd line last visually (right): from odd line right bottom to even line right  (the ⮠ line*/
-  .item:nth-child(6n + 4) {
-    background-color: darkmagenta; }
-    .item:nth-child(6n + 4):before {
-      content: "b";
-      display: block;
-      position: absolute;
-      z-index: 1;
-      bottom: 50%;
-      left: 100%;
-      transform: translateY(calc(0.5 * var(--line-thickness)));
-      border: var(--line-thickness) solid magenta;
-      border-bottom-right-radius: calc(var(--grid-h-gap) * 2);
-      border-left: none;
-      border-top: none;
-      width: calc(0% + var(--grid-h-gap));
-      height: calc((100% + var(--grid-v-gap)) * 0.5); }
+  .item:nth-child(6n + 4):before {
+    content: "";
+    bottom: 50%;
+    left: 100%;
+    transform: translateY(calc(0.5 * var(--line-thickness)));
+    border-bottom-right-radius: var(--line-radius);
+    border-left: none;
+    border-top: none;
+    width: calc(0% + var(--grid-h-gap));
+    height: calc((100% + var(--grid-v-gap) - var(--line-thickness)) * 0.5); }
   /*even line 1st visually (left): from even line left  to odd line right  (the ⮦ line*/
-  .item:nth-child(6n) {
-    background-color: darkred; }
-    .item:nth-child(6n):after {
-      content: "a";
-      display: block;
-      position: absolute;
-      z-index: 1;
-      top: 50%;
-      right: 100%;
-      transform: translateY(calc(-0.5 * var(--line-thickness)));
-      border: var(--line-thickness) solid red;
-      border-top-left-radius: calc(var(--grid-h-gap) * 2);
-      border-right: none;
-      border-bottom: none;
-      width: calc(0% + var(--grid-h-gap));
-      height: calc((100% + var(--grid-v-gap)) * 0.5); }
+  .item:nth-child(6n):after {
+    top: 50%;
+    right: 100%;
+    transform: translateY(calc(-0.5 * var(--line-thickness)));
+    border-top-left-radius: var(--line-radius);
+    border-right: none;
+    border-bottom: none;
+    width: calc(0% + var(--grid-h-gap));
+    height: calc((100% + var(--grid-v-gap) - var(--line-thickness)) * 0.5); }
   /*odd line 1st visually (left): from even line left bottom to odd line left  (the ⮡ line*/
-  .item:nth-child(6n + 1) {
-    background-color: darkblue; }
-    .item:nth-child(6n + 1):before {
-      content: "b";
-      display: block;
-      position: absolute;
-      z-index: 1;
-      bottom: 50%;
-      right: 100%;
-      transform: translateY(calc(0.5 * var(--line-thickness)));
-      border: var(--line-thickness) solid blue;
-      border-bottom-left-radius: calc(var(--grid-h-gap) * 2);
-      border-right: none;
-      border-top: none;
-      width: calc(0% + var(--grid-h-gap));
-      height: calc((100% + var(--grid-v-gap)) * 0.5); }
+  .item:nth-child(6n + 1):before {
+    content: "";
+    bottom: 50%;
+    right: 100%;
+    transform: translateY(calc(0.5 * var(--line-thickness)));
+    border-bottom-left-radius: var(--line-radius);
+    border-right: none;
+    border-top: none;
+    width: calc(0% + var(--grid-h-gap));
+    height: calc((100% + var(--grid-v-gap) - var(--line-thickness)) * 0.5); }
   .item:first-child:before {
     border: none; } }
 
-@media screen and (min-width: 461px) and (max-width: 720px) {
+@media screen and (min-width: 510px) and (max-width: 629px) {
   .flex-container {
     grid-template-columns: repeat(4, 1fr); }
   .item:nth-child(8n + 5) {
-    background-color: darkgray;
-    grid-column: 4;
-    /*even line : from item to next: the - line, from right to left*/ }
+    grid-column: 4; }
     .item:nth-child(8n + 5):after {
-      content: "a";
-      display: block;
-      position: absolute;
-      z-index: 1;
+      /*even line : from item to next: the - line, from right to left*/
       top: 50%;
       right: 100%;
-      transform: translateY(-50%);
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
       width: calc(0% + var(--grid-h-gap));
       height: 0px;
-      border-bottom: var(--line-thickness) solid gray; }
+      border-left: none;
+      border-top: none;
+      border-right: none; }
     .item:nth-child(8n + 5):last-child::after {
       border: none; }
-  .item:nth-child(8n + 1):after {
-    content: "a";
-    display: block;
-    position: absolute;
-    z-index: 1;
-    bottom: 50%;
-    left: 100%;
-    transform: translateY(-50%);
-    width: calc(0% + var(--grid-h-gap));
-    height: 0px;
-    border-bottom: var(--line-thickness) solid white; }
-  .item:nth-child(8n + 1):last-child::after {
-    border: none; }
-  .item:nth-child(8n + 6) {
-    background-color: darkgray;
-    grid-column: 3;
-    /*even line : from item to next: the - line, from right to left*/ }
-    .item:nth-child(8n + 6):after {
-      content: "a";
-      display: block;
-      position: absolute;
-      z-index: 1;
-      top: 50%;
-      right: 100%;
-      transform: translateY(-50%);
+  .item:nth-child(8n + 1) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(8n + 1):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
       width: calc(0% + var(--grid-h-gap));
       height: 0px;
-      border-bottom: var(--line-thickness) solid gray; }
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(8n + 1):last-child::after {
+      border: none; }
+  .item:nth-child(8n + 6) {
+    grid-column: 3; }
+    .item:nth-child(8n + 6):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
     .item:nth-child(8n + 6):last-child::after {
       border: none; }
-  .item:nth-child(8n + 2):after {
-    content: "a";
-    display: block;
-    position: absolute;
-    z-index: 1;
-    bottom: 50%;
-    left: 100%;
-    transform: translateY(-50%);
-    width: calc(0% + var(--grid-h-gap));
-    height: 0px;
-    border-bottom: var(--line-thickness) solid white; }
-  .item:nth-child(8n + 2):last-child::after {
-    border: none; }
-  .item:nth-child(8n + 7) {
-    background-color: darkgray;
-    grid-column: 2;
-    /*even line : from item to next: the - line, from right to left*/ }
-    .item:nth-child(8n + 7):after {
-      content: "a";
-      display: block;
-      position: absolute;
-      z-index: 1;
-      top: 50%;
-      right: 100%;
-      transform: translateY(-50%);
+  .item:nth-child(8n + 2) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(8n + 2):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
       width: calc(0% + var(--grid-h-gap));
       height: 0px;
-      border-bottom: var(--line-thickness) solid gray; }
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(8n + 2):last-child::after {
+      border: none; }
+  .item:nth-child(8n + 7) {
+    grid-column: 2; }
+    .item:nth-child(8n + 7):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
     .item:nth-child(8n + 7):last-child::after {
       border: none; }
-  .item:nth-child(8n + 3):after {
-    content: "a";
-    display: block;
-    position: absolute;
-    z-index: 1;
-    bottom: 50%;
-    left: 100%;
-    transform: translateY(-50%);
-    width: calc(0% + var(--grid-h-gap));
-    height: 0px;
-    border-bottom: var(--line-thickness) solid white; }
-  .item:nth-child(8n + 3):last-child::after {
-    border: none; }
-  .item:nth-child(8n + 8) {
-    background-color: darkgray;
-    grid-column: 1;
-    /*even line : from item to next: the - line, from right to left*/ }
-    .item:nth-child(8n + 8):after {
-      content: "a";
-      display: block;
-      position: absolute;
-      z-index: 1;
-      top: 50%;
-      right: 100%;
-      transform: translateY(-50%);
+  .item:nth-child(8n + 3) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(8n + 3):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
       width: calc(0% + var(--grid-h-gap));
       height: 0px;
-      border-bottom: var(--line-thickness) solid gray; }
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(8n + 3):last-child::after {
+      border: none; }
+  .item:nth-child(8n + 8) {
+    grid-column: 1; }
     .item:nth-child(8n + 8):last-child::after {
       border: none; }
-  .item:nth-child(8n + 4):after {
-    content: "a";
-    display: block;
-    position: absolute;
-    z-index: 1;
-    bottom: 50%;
-    left: 100%;
-    transform: translateY(-50%);
-    width: calc(0% + var(--grid-h-gap));
-    height: 0px;
-    border-bottom: var(--line-thickness) solid white; }
   .item:nth-child(8n + 4):last-child::after {
     border: none; }
   /*odd line last visually (right): from even line right top to bottom line right  (the ⮧ line)*/
-  .item:nth-child(8n + 4) {
-    background-color: darkgreen; }
-    .item:nth-child(8n + 4):after {
-      content: "a";
-      display: block;
-      position: absolute;
-      z-index: 1;
-      top: 50%;
-      left: 100%;
-      transform: translateY(calc(-0.5 * var(--line-thickness)));
-      border: var(--line-thickness) solid lightgreen;
-      border-top-right-radius: calc(var(--grid-h-gap) * 2);
-      border-left: none;
-      border-bottom: none;
-      width: calc(var(--grid-h-gap));
-      height: calc((100% + var(--grid-v-gap)) * 0.5); }
+  .item:nth-child(8n + 4):after {
+    top: 50%;
+    left: 100%;
+    transform: translateY(calc(-0.5 * var(--line-thickness)));
+    border-top-right-radius: var(--line-radius);
+    border-left: none;
+    border-bottom: none;
+    width: calc(var(--grid-h-gap));
+    height: calc((100% + var(--grid-v-gap) - var(--line-thickness)) * 0.5); }
   /*odd line last visually (right): from odd line right bottom to even line right  (the ⮠ line*/
-  .item:nth-child(8n + 5) {
-    background-color: darkmagenta; }
-    .item:nth-child(8n + 5):before {
-      content: "b";
-      display: block;
-      position: absolute;
-      z-index: 1;
-      bottom: 50%;
-      left: 100%;
-      transform: translateY(calc(0.5 * var(--line-thickness)));
-      border: var(--line-thickness) solid magenta;
-      border-bottom-right-radius: calc(var(--grid-h-gap) * 2);
-      border-left: none;
-      border-top: none;
-      width: calc(0% + var(--grid-h-gap));
-      height: calc((100% + var(--grid-v-gap)) * 0.5); }
+  .item:nth-child(8n + 5):before {
+    content: "";
+    bottom: 50%;
+    left: 100%;
+    transform: translateY(calc(0.5 * var(--line-thickness)));
+    border-bottom-right-radius: var(--line-radius);
+    border-left: none;
+    border-top: none;
+    width: calc(0% + var(--grid-h-gap));
+    height: calc((100% + var(--grid-v-gap) - var(--line-thickness)) * 0.5); }
   /*even line 1st visually (left): from even line left  to odd line right  (the ⮦ line*/
-  .item:nth-child(8n) {
-    background-color: darkred; }
-    .item:nth-child(8n):after {
-      content: "a";
-      display: block;
-      position: absolute;
-      z-index: 1;
-      top: 50%;
-      right: 100%;
-      transform: translateY(calc(-0.5 * var(--line-thickness)));
-      border: var(--line-thickness) solid red;
-      border-top-left-radius: calc(var(--grid-h-gap) * 2);
-      border-right: none;
-      border-bottom: none;
-      width: calc(0% + var(--grid-h-gap));
-      height: calc((100% + var(--grid-v-gap)) * 0.5); }
+  .item:nth-child(8n):after {
+    top: 50%;
+    right: 100%;
+    transform: translateY(calc(-0.5 * var(--line-thickness)));
+    border-top-left-radius: var(--line-radius);
+    border-right: none;
+    border-bottom: none;
+    width: calc(0% + var(--grid-h-gap));
+    height: calc((100% + var(--grid-v-gap) - var(--line-thickness)) * 0.5); }
   /*odd line 1st visually (left): from even line left bottom to odd line left  (the ⮡ line*/
-  .item:nth-child(8n + 1) {
-    background-color: darkblue; }
-    .item:nth-child(8n + 1):before {
-      content: "b";
-      display: block;
-      position: absolute;
-      z-index: 1;
-      bottom: 50%;
-      right: 100%;
-      transform: translateY(calc(0.5 * var(--line-thickness)));
-      border: var(--line-thickness) solid blue;
-      border-bottom-left-radius: calc(var(--grid-h-gap) * 2);
-      border-right: none;
-      border-top: none;
-      width: calc(0% + var(--grid-h-gap));
-      height: calc((100% + var(--grid-v-gap)) * 0.5); }
+  .item:nth-child(8n + 1):before {
+    content: "";
+    bottom: 50%;
+    right: 100%;
+    transform: translateY(calc(0.5 * var(--line-thickness)));
+    border-bottom-left-radius: var(--line-radius);
+    border-right: none;
+    border-top: none;
+    width: calc(0% + var(--grid-h-gap));
+    height: calc((100% + var(--grid-v-gap) - var(--line-thickness)) * 0.5); }
   .item:first-child:before {
     border: none; } }
 
-@media screen and (min-width: 721px) and (max-width: 960px) {
+@media screen and (min-width: 630px) and (max-width: 749px) {
   .flex-container {
     grid-template-columns: repeat(5, 1fr); }
   .item:nth-child(10n + 6) {
-    background-color: darkgray;
-    grid-column: 5;
-    /*even line : from item to next: the - line, from right to left*/ }
+    grid-column: 5; }
     .item:nth-child(10n + 6):after {
-      content: "a";
-      display: block;
-      position: absolute;
-      z-index: 1;
+      /*even line : from item to next: the - line, from right to left*/
       top: 50%;
       right: 100%;
-      transform: translateY(-50%);
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
       width: calc(0% + var(--grid-h-gap));
       height: 0px;
-      border-bottom: var(--line-thickness) solid gray; }
+      border-left: none;
+      border-top: none;
+      border-right: none; }
     .item:nth-child(10n + 6):last-child::after {
       border: none; }
-  .item:nth-child(10n + 1):after {
-    content: "a";
-    display: block;
-    position: absolute;
-    z-index: 1;
-    bottom: 50%;
-    left: 100%;
-    transform: translateY(-50%);
-    width: calc(0% + var(--grid-h-gap));
-    height: 0px;
-    border-bottom: var(--line-thickness) solid white; }
-  .item:nth-child(10n + 1):last-child::after {
-    border: none; }
-  .item:nth-child(10n + 7) {
-    background-color: darkgray;
-    grid-column: 4;
-    /*even line : from item to next: the - line, from right to left*/ }
-    .item:nth-child(10n + 7):after {
-      content: "a";
-      display: block;
-      position: absolute;
-      z-index: 1;
-      top: 50%;
-      right: 100%;
-      transform: translateY(-50%);
+  .item:nth-child(10n + 1) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(10n + 1):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
       width: calc(0% + var(--grid-h-gap));
       height: 0px;
-      border-bottom: var(--line-thickness) solid gray; }
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(10n + 1):last-child::after {
+      border: none; }
+  .item:nth-child(10n + 7) {
+    grid-column: 4; }
+    .item:nth-child(10n + 7):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
     .item:nth-child(10n + 7):last-child::after {
       border: none; }
-  .item:nth-child(10n + 2):after {
-    content: "a";
-    display: block;
-    position: absolute;
-    z-index: 1;
-    bottom: 50%;
-    left: 100%;
-    transform: translateY(-50%);
-    width: calc(0% + var(--grid-h-gap));
-    height: 0px;
-    border-bottom: var(--line-thickness) solid white; }
-  .item:nth-child(10n + 2):last-child::after {
-    border: none; }
-  .item:nth-child(10n + 8) {
-    background-color: darkgray;
-    grid-column: 3;
-    /*even line : from item to next: the - line, from right to left*/ }
-    .item:nth-child(10n + 8):after {
-      content: "a";
-      display: block;
-      position: absolute;
-      z-index: 1;
-      top: 50%;
-      right: 100%;
-      transform: translateY(-50%);
+  .item:nth-child(10n + 2) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(10n + 2):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
       width: calc(0% + var(--grid-h-gap));
       height: 0px;
-      border-bottom: var(--line-thickness) solid gray; }
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(10n + 2):last-child::after {
+      border: none; }
+  .item:nth-child(10n + 8) {
+    grid-column: 3; }
+    .item:nth-child(10n + 8):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
     .item:nth-child(10n + 8):last-child::after {
       border: none; }
-  .item:nth-child(10n + 3):after {
-    content: "a";
-    display: block;
-    position: absolute;
-    z-index: 1;
-    bottom: 50%;
-    left: 100%;
-    transform: translateY(-50%);
-    width: calc(0% + var(--grid-h-gap));
-    height: 0px;
-    border-bottom: var(--line-thickness) solid white; }
-  .item:nth-child(10n + 3):last-child::after {
-    border: none; }
-  .item:nth-child(10n + 9) {
-    background-color: darkgray;
-    grid-column: 2;
-    /*even line : from item to next: the - line, from right to left*/ }
-    .item:nth-child(10n + 9):after {
-      content: "a";
-      display: block;
-      position: absolute;
-      z-index: 1;
-      top: 50%;
-      right: 100%;
-      transform: translateY(-50%);
+  .item:nth-child(10n + 3) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(10n + 3):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
       width: calc(0% + var(--grid-h-gap));
       height: 0px;
-      border-bottom: var(--line-thickness) solid gray; }
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(10n + 3):last-child::after {
+      border: none; }
+  .item:nth-child(10n + 9) {
+    grid-column: 2; }
+    .item:nth-child(10n + 9):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
     .item:nth-child(10n + 9):last-child::after {
       border: none; }
-  .item:nth-child(10n + 4):after {
-    content: "a";
-    display: block;
-    position: absolute;
-    z-index: 1;
-    bottom: 50%;
-    left: 100%;
-    transform: translateY(-50%);
-    width: calc(0% + var(--grid-h-gap));
-    height: 0px;
-    border-bottom: var(--line-thickness) solid white; }
-  .item:nth-child(10n + 4):last-child::after {
-    border: none; }
-  .item:nth-child(10n + 10) {
-    background-color: darkgray;
-    grid-column: 1;
-    /*even line : from item to next: the - line, from right to left*/ }
-    .item:nth-child(10n + 10):after {
-      content: "a";
-      display: block;
-      position: absolute;
-      z-index: 1;
-      top: 50%;
-      right: 100%;
-      transform: translateY(-50%);
+  .item:nth-child(10n + 4) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(10n + 4):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
       width: calc(0% + var(--grid-h-gap));
       height: 0px;
-      border-bottom: var(--line-thickness) solid gray; }
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(10n + 4):last-child::after {
+      border: none; }
+  .item:nth-child(10n + 10) {
+    grid-column: 1; }
     .item:nth-child(10n + 10):last-child::after {
       border: none; }
-  .item:nth-child(10n + 5):after {
-    content: "a";
-    display: block;
-    position: absolute;
-    z-index: 1;
-    bottom: 50%;
-    left: 100%;
-    transform: translateY(-50%);
-    width: calc(0% + var(--grid-h-gap));
-    height: 0px;
-    border-bottom: var(--line-thickness) solid white; }
   .item:nth-child(10n + 5):last-child::after {
     border: none; }
   /*odd line last visually (right): from even line right top to bottom line right  (the ⮧ line)*/
-  .item:nth-child(10n + 5) {
-    background-color: darkgreen; }
-    .item:nth-child(10n + 5):after {
-      content: "a";
-      display: block;
-      position: absolute;
-      z-index: 1;
-      top: 50%;
-      left: 100%;
-      transform: translateY(calc(-0.5 * var(--line-thickness)));
-      border: var(--line-thickness) solid lightgreen;
-      border-top-right-radius: calc(var(--grid-h-gap) * 2);
-      border-left: none;
-      border-bottom: none;
-      width: calc(var(--grid-h-gap));
-      height: calc((100% + var(--grid-v-gap)) * 0.5); }
+  .item:nth-child(10n + 5):after {
+    top: 50%;
+    left: 100%;
+    transform: translateY(calc(-0.5 * var(--line-thickness)));
+    border-top-right-radius: var(--line-radius);
+    border-left: none;
+    border-bottom: none;
+    width: calc(var(--grid-h-gap));
+    height: calc((100% + var(--grid-v-gap) - var(--line-thickness)) * 0.5); }
   /*odd line last visually (right): from odd line right bottom to even line right  (the ⮠ line*/
-  .item:nth-child(10n + 6) {
-    background-color: darkmagenta; }
-    .item:nth-child(10n + 6):before {
-      content: "b";
-      display: block;
-      position: absolute;
-      z-index: 1;
-      bottom: 50%;
-      left: 100%;
-      transform: translateY(calc(0.5 * var(--line-thickness)));
-      border: var(--line-thickness) solid magenta;
-      border-bottom-right-radius: calc(var(--grid-h-gap) * 2);
-      border-left: none;
-      border-top: none;
-      width: calc(0% + var(--grid-h-gap));
-      height: calc((100% + var(--grid-v-gap)) * 0.5); }
+  .item:nth-child(10n + 6):before {
+    content: "";
+    bottom: 50%;
+    left: 100%;
+    transform: translateY(calc(0.5 * var(--line-thickness)));
+    border-bottom-right-radius: var(--line-radius);
+    border-left: none;
+    border-top: none;
+    width: calc(0% + var(--grid-h-gap));
+    height: calc((100% + var(--grid-v-gap) - var(--line-thickness)) * 0.5); }
   /*even line 1st visually (left): from even line left  to odd line right  (the ⮦ line*/
-  .item:nth-child(10n) {
-    background-color: darkred; }
-    .item:nth-child(10n):after {
-      content: "a";
-      display: block;
-      position: absolute;
-      z-index: 1;
-      top: 50%;
-      right: 100%;
-      transform: translateY(calc(-0.5 * var(--line-thickness)));
-      border: var(--line-thickness) solid red;
-      border-top-left-radius: calc(var(--grid-h-gap) * 2);
-      border-right: none;
-      border-bottom: none;
-      width: calc(0% + var(--grid-h-gap));
-      height: calc((100% + var(--grid-v-gap)) * 0.5); }
+  .item:nth-child(10n):after {
+    top: 50%;
+    right: 100%;
+    transform: translateY(calc(-0.5 * var(--line-thickness)));
+    border-top-left-radius: var(--line-radius);
+    border-right: none;
+    border-bottom: none;
+    width: calc(0% + var(--grid-h-gap));
+    height: calc((100% + var(--grid-v-gap) - var(--line-thickness)) * 0.5); }
   /*odd line 1st visually (left): from even line left bottom to odd line left  (the ⮡ line*/
-  .item:nth-child(10n + 1) {
-    background-color: darkblue; }
-    .item:nth-child(10n + 1):before {
-      content: "b";
-      display: block;
-      position: absolute;
-      z-index: 1;
-      bottom: 50%;
-      right: 100%;
-      transform: translateY(calc(0.5 * var(--line-thickness)));
-      border: var(--line-thickness) solid blue;
-      border-bottom-left-radius: calc(var(--grid-h-gap) * 2);
-      border-right: none;
-      border-top: none;
-      width: calc(0% + var(--grid-h-gap));
-      height: calc((100% + var(--grid-v-gap)) * 0.5); }
+  .item:nth-child(10n + 1):before {
+    content: "";
+    bottom: 50%;
+    right: 100%;
+    transform: translateY(calc(0.5 * var(--line-thickness)));
+    border-bottom-left-radius: var(--line-radius);
+    border-right: none;
+    border-top: none;
+    width: calc(0% + var(--grid-h-gap));
+    height: calc((100% + var(--grid-v-gap) - var(--line-thickness)) * 0.5); }
   .item:first-child:before {
     border: none; } }
 
-@media screen and (min-width: 961px) and (max-width: 1080px) {
+@media screen and (min-width: 750px) and (max-width: 869px) {
   .flex-container {
     grid-template-columns: repeat(6, 1fr); }
   .item:nth-child(12n + 7) {
-    background-color: darkgray;
-    grid-column: 6;
-    /*even line : from item to next: the - line, from right to left*/ }
+    grid-column: 6; }
     .item:nth-child(12n + 7):after {
-      content: "a";
-      display: block;
-      position: absolute;
-      z-index: 1;
+      /*even line : from item to next: the - line, from right to left*/
       top: 50%;
       right: 100%;
-      transform: translateY(-50%);
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
       width: calc(0% + var(--grid-h-gap));
       height: 0px;
-      border-bottom: var(--line-thickness) solid gray; }
+      border-left: none;
+      border-top: none;
+      border-right: none; }
     .item:nth-child(12n + 7):last-child::after {
       border: none; }
-  .item:nth-child(12n + 1):after {
-    content: "a";
-    display: block;
-    position: absolute;
-    z-index: 1;
-    bottom: 50%;
-    left: 100%;
-    transform: translateY(-50%);
-    width: calc(0% + var(--grid-h-gap));
-    height: 0px;
-    border-bottom: var(--line-thickness) solid white; }
-  .item:nth-child(12n + 1):last-child::after {
-    border: none; }
-  .item:nth-child(12n + 8) {
-    background-color: darkgray;
-    grid-column: 5;
-    /*even line : from item to next: the - line, from right to left*/ }
-    .item:nth-child(12n + 8):after {
-      content: "a";
-      display: block;
-      position: absolute;
-      z-index: 1;
-      top: 50%;
-      right: 100%;
-      transform: translateY(-50%);
+  .item:nth-child(12n + 1) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(12n + 1):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
       width: calc(0% + var(--grid-h-gap));
       height: 0px;
-      border-bottom: var(--line-thickness) solid gray; }
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(12n + 1):last-child::after {
+      border: none; }
+  .item:nth-child(12n + 8) {
+    grid-column: 5; }
+    .item:nth-child(12n + 8):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
     .item:nth-child(12n + 8):last-child::after {
       border: none; }
-  .item:nth-child(12n + 2):after {
-    content: "a";
-    display: block;
-    position: absolute;
-    z-index: 1;
-    bottom: 50%;
-    left: 100%;
-    transform: translateY(-50%);
-    width: calc(0% + var(--grid-h-gap));
-    height: 0px;
-    border-bottom: var(--line-thickness) solid white; }
-  .item:nth-child(12n + 2):last-child::after {
-    border: none; }
-  .item:nth-child(12n + 9) {
-    background-color: darkgray;
-    grid-column: 4;
-    /*even line : from item to next: the - line, from right to left*/ }
-    .item:nth-child(12n + 9):after {
-      content: "a";
-      display: block;
-      position: absolute;
-      z-index: 1;
-      top: 50%;
-      right: 100%;
-      transform: translateY(-50%);
+  .item:nth-child(12n + 2) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(12n + 2):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
       width: calc(0% + var(--grid-h-gap));
       height: 0px;
-      border-bottom: var(--line-thickness) solid gray; }
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(12n + 2):last-child::after {
+      border: none; }
+  .item:nth-child(12n + 9) {
+    grid-column: 4; }
+    .item:nth-child(12n + 9):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
     .item:nth-child(12n + 9):last-child::after {
       border: none; }
-  .item:nth-child(12n + 3):after {
-    content: "a";
-    display: block;
-    position: absolute;
-    z-index: 1;
-    bottom: 50%;
-    left: 100%;
-    transform: translateY(-50%);
-    width: calc(0% + var(--grid-h-gap));
-    height: 0px;
-    border-bottom: var(--line-thickness) solid white; }
-  .item:nth-child(12n + 3):last-child::after {
-    border: none; }
-  .item:nth-child(12n + 10) {
-    background-color: darkgray;
-    grid-column: 3;
-    /*even line : from item to next: the - line, from right to left*/ }
-    .item:nth-child(12n + 10):after {
-      content: "a";
-      display: block;
-      position: absolute;
-      z-index: 1;
-      top: 50%;
-      right: 100%;
-      transform: translateY(-50%);
+  .item:nth-child(12n + 3) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(12n + 3):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
       width: calc(0% + var(--grid-h-gap));
       height: 0px;
-      border-bottom: var(--line-thickness) solid gray; }
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(12n + 3):last-child::after {
+      border: none; }
+  .item:nth-child(12n + 10) {
+    grid-column: 3; }
+    .item:nth-child(12n + 10):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
     .item:nth-child(12n + 10):last-child::after {
       border: none; }
-  .item:nth-child(12n + 4):after {
-    content: "a";
-    display: block;
-    position: absolute;
-    z-index: 1;
-    bottom: 50%;
-    left: 100%;
-    transform: translateY(-50%);
-    width: calc(0% + var(--grid-h-gap));
-    height: 0px;
-    border-bottom: var(--line-thickness) solid white; }
-  .item:nth-child(12n + 4):last-child::after {
-    border: none; }
-  .item:nth-child(12n + 11) {
-    background-color: darkgray;
-    grid-column: 2;
-    /*even line : from item to next: the - line, from right to left*/ }
-    .item:nth-child(12n + 11):after {
-      content: "a";
-      display: block;
-      position: absolute;
-      z-index: 1;
-      top: 50%;
-      right: 100%;
-      transform: translateY(-50%);
+  .item:nth-child(12n + 4) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(12n + 4):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
       width: calc(0% + var(--grid-h-gap));
       height: 0px;
-      border-bottom: var(--line-thickness) solid gray; }
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(12n + 4):last-child::after {
+      border: none; }
+  .item:nth-child(12n + 11) {
+    grid-column: 2; }
+    .item:nth-child(12n + 11):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
     .item:nth-child(12n + 11):last-child::after {
       border: none; }
-  .item:nth-child(12n + 5):after {
-    content: "a";
-    display: block;
-    position: absolute;
-    z-index: 1;
-    bottom: 50%;
-    left: 100%;
-    transform: translateY(-50%);
-    width: calc(0% + var(--grid-h-gap));
-    height: 0px;
-    border-bottom: var(--line-thickness) solid white; }
-  .item:nth-child(12n + 5):last-child::after {
-    border: none; }
-  .item:nth-child(12n + 12) {
-    background-color: darkgray;
-    grid-column: 1;
-    /*even line : from item to next: the - line, from right to left*/ }
-    .item:nth-child(12n + 12):after {
-      content: "a";
-      display: block;
-      position: absolute;
-      z-index: 1;
-      top: 50%;
-      right: 100%;
-      transform: translateY(-50%);
+  .item:nth-child(12n + 5) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(12n + 5):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
       width: calc(0% + var(--grid-h-gap));
       height: 0px;
-      border-bottom: var(--line-thickness) solid gray; }
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(12n + 5):last-child::after {
+      border: none; }
+  .item:nth-child(12n + 12) {
+    grid-column: 1; }
     .item:nth-child(12n + 12):last-child::after {
       border: none; }
-  .item:nth-child(12n + 6):after {
-    content: "a";
-    display: block;
-    position: absolute;
-    z-index: 1;
-    bottom: 50%;
-    left: 100%;
-    transform: translateY(-50%);
-    width: calc(0% + var(--grid-h-gap));
-    height: 0px;
-    border-bottom: var(--line-thickness) solid white; }
   .item:nth-child(12n + 6):last-child::after {
     border: none; }
   /*odd line last visually (right): from even line right top to bottom line right  (the ⮧ line)*/
-  .item:nth-child(12n + 6) {
-    background-color: darkgreen; }
-    .item:nth-child(12n + 6):after {
-      content: "a";
-      display: block;
-      position: absolute;
-      z-index: 1;
-      top: 50%;
-      left: 100%;
-      transform: translateY(calc(-0.5 * var(--line-thickness)));
-      border: var(--line-thickness) solid lightgreen;
-      border-top-right-radius: calc(var(--grid-h-gap) * 2);
-      border-left: none;
-      border-bottom: none;
-      width: calc(var(--grid-h-gap));
-      height: calc((100% + var(--grid-v-gap)) * 0.5); }
+  .item:nth-child(12n + 6):after {
+    top: 50%;
+    left: 100%;
+    transform: translateY(calc(-0.5 * var(--line-thickness)));
+    border-top-right-radius: var(--line-radius);
+    border-left: none;
+    border-bottom: none;
+    width: calc(var(--grid-h-gap));
+    height: calc((100% + var(--grid-v-gap) - var(--line-thickness)) * 0.5); }
   /*odd line last visually (right): from odd line right bottom to even line right  (the ⮠ line*/
-  .item:nth-child(12n + 7) {
-    background-color: darkmagenta; }
-    .item:nth-child(12n + 7):before {
-      content: "b";
-      display: block;
-      position: absolute;
-      z-index: 1;
-      bottom: 50%;
-      left: 100%;
-      transform: translateY(calc(0.5 * var(--line-thickness)));
-      border: var(--line-thickness) solid magenta;
-      border-bottom-right-radius: calc(var(--grid-h-gap) * 2);
-      border-left: none;
-      border-top: none;
-      width: calc(0% + var(--grid-h-gap));
-      height: calc((100% + var(--grid-v-gap)) * 0.5); }
+  .item:nth-child(12n + 7):before {
+    content: "";
+    bottom: 50%;
+    left: 100%;
+    transform: translateY(calc(0.5 * var(--line-thickness)));
+    border-bottom-right-radius: var(--line-radius);
+    border-left: none;
+    border-top: none;
+    width: calc(0% + var(--grid-h-gap));
+    height: calc((100% + var(--grid-v-gap) - var(--line-thickness)) * 0.5); }
   /*even line 1st visually (left): from even line left  to odd line right  (the ⮦ line*/
-  .item:nth-child(12n) {
-    background-color: darkred; }
-    .item:nth-child(12n):after {
-      content: "a";
-      display: block;
-      position: absolute;
-      z-index: 1;
-      top: 50%;
-      right: 100%;
-      transform: translateY(calc(-0.5 * var(--line-thickness)));
-      border: var(--line-thickness) solid red;
-      border-top-left-radius: calc(var(--grid-h-gap) * 2);
-      border-right: none;
-      border-bottom: none;
-      width: calc(0% + var(--grid-h-gap));
-      height: calc((100% + var(--grid-v-gap)) * 0.5); }
+  .item:nth-child(12n):after {
+    top: 50%;
+    right: 100%;
+    transform: translateY(calc(-0.5 * var(--line-thickness)));
+    border-top-left-radius: var(--line-radius);
+    border-right: none;
+    border-bottom: none;
+    width: calc(0% + var(--grid-h-gap));
+    height: calc((100% + var(--grid-v-gap) - var(--line-thickness)) * 0.5); }
   /*odd line 1st visually (left): from even line left bottom to odd line left  (the ⮡ line*/
-  .item:nth-child(12n + 1) {
-    background-color: darkblue; }
-    .item:nth-child(12n + 1):before {
-      content: "b";
-      display: block;
-      position: absolute;
-      z-index: 1;
-      bottom: 50%;
-      right: 100%;
-      transform: translateY(calc(0.5 * var(--line-thickness)));
-      border: var(--line-thickness) solid blue;
-      border-bottom-left-radius: calc(var(--grid-h-gap) * 2);
-      border-right: none;
-      border-top: none;
-      width: calc(0% + var(--grid-h-gap));
-      height: calc((100% + var(--grid-v-gap)) * 0.5); }
+  .item:nth-child(12n + 1):before {
+    content: "";
+    bottom: 50%;
+    right: 100%;
+    transform: translateY(calc(0.5 * var(--line-thickness)));
+    border-bottom-left-radius: var(--line-radius);
+    border-right: none;
+    border-top: none;
+    width: calc(0% + var(--grid-h-gap));
+    height: calc((100% + var(--grid-v-gap) - var(--line-thickness)) * 0.5); }
   .item:first-child:before {
     border: none; } }
 
-@media screen and (min-width: 1081px) {
+@media screen and (min-width: 870px) and (max-width: 989px) {
   .flex-container {
     grid-template-columns: repeat(7, 1fr); }
   .item:nth-child(14n + 8) {
-    background-color: darkgray;
-    grid-column: 7;
-    /*even line : from item to next: the - line, from right to left*/ }
+    grid-column: 7; }
     .item:nth-child(14n + 8):after {
-      content: "a";
-      display: block;
-      position: absolute;
-      z-index: 1;
+      /*even line : from item to next: the - line, from right to left*/
       top: 50%;
       right: 100%;
-      transform: translateY(-50%);
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
       width: calc(0% + var(--grid-h-gap));
       height: 0px;
-      border-bottom: var(--line-thickness) solid gray; }
+      border-left: none;
+      border-top: none;
+      border-right: none; }
     .item:nth-child(14n + 8):last-child::after {
       border: none; }
-  .item:nth-child(14n + 1):after {
-    content: "a";
-    display: block;
-    position: absolute;
-    z-index: 1;
-    bottom: 50%;
-    left: 100%;
-    transform: translateY(-50%);
-    width: calc(0% + var(--grid-h-gap));
-    height: 0px;
-    border-bottom: var(--line-thickness) solid white; }
-  .item:nth-child(14n + 1):last-child::after {
-    border: none; }
-  .item:nth-child(14n + 9) {
-    background-color: darkgray;
-    grid-column: 6;
-    /*even line : from item to next: the - line, from right to left*/ }
-    .item:nth-child(14n + 9):after {
-      content: "a";
-      display: block;
-      position: absolute;
-      z-index: 1;
-      top: 50%;
-      right: 100%;
-      transform: translateY(-50%);
+  .item:nth-child(14n + 1) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(14n + 1):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
       width: calc(0% + var(--grid-h-gap));
       height: 0px;
-      border-bottom: var(--line-thickness) solid gray; }
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(14n + 1):last-child::after {
+      border: none; }
+  .item:nth-child(14n + 9) {
+    grid-column: 6; }
+    .item:nth-child(14n + 9):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
     .item:nth-child(14n + 9):last-child::after {
       border: none; }
-  .item:nth-child(14n + 2):after {
-    content: "a";
-    display: block;
-    position: absolute;
-    z-index: 1;
-    bottom: 50%;
-    left: 100%;
-    transform: translateY(-50%);
-    width: calc(0% + var(--grid-h-gap));
-    height: 0px;
-    border-bottom: var(--line-thickness) solid white; }
-  .item:nth-child(14n + 2):last-child::after {
-    border: none; }
-  .item:nth-child(14n + 10) {
-    background-color: darkgray;
-    grid-column: 5;
-    /*even line : from item to next: the - line, from right to left*/ }
-    .item:nth-child(14n + 10):after {
-      content: "a";
-      display: block;
-      position: absolute;
-      z-index: 1;
-      top: 50%;
-      right: 100%;
-      transform: translateY(-50%);
+  .item:nth-child(14n + 2) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(14n + 2):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
       width: calc(0% + var(--grid-h-gap));
       height: 0px;
-      border-bottom: var(--line-thickness) solid gray; }
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(14n + 2):last-child::after {
+      border: none; }
+  .item:nth-child(14n + 10) {
+    grid-column: 5; }
+    .item:nth-child(14n + 10):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
     .item:nth-child(14n + 10):last-child::after {
       border: none; }
-  .item:nth-child(14n + 3):after {
-    content: "a";
-    display: block;
-    position: absolute;
-    z-index: 1;
-    bottom: 50%;
-    left: 100%;
-    transform: translateY(-50%);
-    width: calc(0% + var(--grid-h-gap));
-    height: 0px;
-    border-bottom: var(--line-thickness) solid white; }
-  .item:nth-child(14n + 3):last-child::after {
-    border: none; }
-  .item:nth-child(14n + 11) {
-    background-color: darkgray;
-    grid-column: 4;
-    /*even line : from item to next: the - line, from right to left*/ }
-    .item:nth-child(14n + 11):after {
-      content: "a";
-      display: block;
-      position: absolute;
-      z-index: 1;
-      top: 50%;
-      right: 100%;
-      transform: translateY(-50%);
+  .item:nth-child(14n + 3) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(14n + 3):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
       width: calc(0% + var(--grid-h-gap));
       height: 0px;
-      border-bottom: var(--line-thickness) solid gray; }
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(14n + 3):last-child::after {
+      border: none; }
+  .item:nth-child(14n + 11) {
+    grid-column: 4; }
+    .item:nth-child(14n + 11):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
     .item:nth-child(14n + 11):last-child::after {
       border: none; }
-  .item:nth-child(14n + 4):after {
-    content: "a";
-    display: block;
-    position: absolute;
-    z-index: 1;
-    bottom: 50%;
-    left: 100%;
-    transform: translateY(-50%);
-    width: calc(0% + var(--grid-h-gap));
-    height: 0px;
-    border-bottom: var(--line-thickness) solid white; }
-  .item:nth-child(14n + 4):last-child::after {
-    border: none; }
-  .item:nth-child(14n + 12) {
-    background-color: darkgray;
-    grid-column: 3;
-    /*even line : from item to next: the - line, from right to left*/ }
-    .item:nth-child(14n + 12):after {
-      content: "a";
-      display: block;
-      position: absolute;
-      z-index: 1;
-      top: 50%;
-      right: 100%;
-      transform: translateY(-50%);
+  .item:nth-child(14n + 4) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(14n + 4):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
       width: calc(0% + var(--grid-h-gap));
       height: 0px;
-      border-bottom: var(--line-thickness) solid gray; }
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(14n + 4):last-child::after {
+      border: none; }
+  .item:nth-child(14n + 12) {
+    grid-column: 3; }
+    .item:nth-child(14n + 12):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
     .item:nth-child(14n + 12):last-child::after {
       border: none; }
-  .item:nth-child(14n + 5):after {
-    content: "a";
-    display: block;
-    position: absolute;
-    z-index: 1;
-    bottom: 50%;
-    left: 100%;
-    transform: translateY(-50%);
-    width: calc(0% + var(--grid-h-gap));
-    height: 0px;
-    border-bottom: var(--line-thickness) solid white; }
-  .item:nth-child(14n + 5):last-child::after {
-    border: none; }
-  .item:nth-child(14n + 13) {
-    background-color: darkgray;
-    grid-column: 2;
-    /*even line : from item to next: the - line, from right to left*/ }
-    .item:nth-child(14n + 13):after {
-      content: "a";
-      display: block;
-      position: absolute;
-      z-index: 1;
-      top: 50%;
-      right: 100%;
-      transform: translateY(-50%);
+  .item:nth-child(14n + 5) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(14n + 5):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
       width: calc(0% + var(--grid-h-gap));
       height: 0px;
-      border-bottom: var(--line-thickness) solid gray; }
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(14n + 5):last-child::after {
+      border: none; }
+  .item:nth-child(14n + 13) {
+    grid-column: 2; }
+    .item:nth-child(14n + 13):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
     .item:nth-child(14n + 13):last-child::after {
       border: none; }
-  .item:nth-child(14n + 6):after {
-    content: "a";
-    display: block;
-    position: absolute;
-    z-index: 1;
-    bottom: 50%;
-    left: 100%;
-    transform: translateY(-50%);
-    width: calc(0% + var(--grid-h-gap));
-    height: 0px;
-    border-bottom: var(--line-thickness) solid white; }
-  .item:nth-child(14n + 6):last-child::after {
-    border: none; }
-  .item:nth-child(14n + 14) {
-    background-color: darkgray;
-    grid-column: 1;
-    /*even line : from item to next: the - line, from right to left*/ }
-    .item:nth-child(14n + 14):after {
-      content: "a";
-      display: block;
-      position: absolute;
-      z-index: 1;
-      top: 50%;
-      right: 100%;
-      transform: translateY(-50%);
+  .item:nth-child(14n + 6) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(14n + 6):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
       width: calc(0% + var(--grid-h-gap));
       height: 0px;
-      border-bottom: var(--line-thickness) solid gray; }
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(14n + 6):last-child::after {
+      border: none; }
+  .item:nth-child(14n + 14) {
+    grid-column: 1; }
     .item:nth-child(14n + 14):last-child::after {
       border: none; }
-  .item:nth-child(14n + 7):after {
-    content: "a";
-    display: block;
-    position: absolute;
-    z-index: 1;
-    bottom: 50%;
-    left: 100%;
-    transform: translateY(-50%);
-    width: calc(0% + var(--grid-h-gap));
-    height: 0px;
-    border-bottom: var(--line-thickness) solid white; }
   .item:nth-child(14n + 7):last-child::after {
     border: none; }
   /*odd line last visually (right): from even line right top to bottom line right  (the ⮧ line)*/
-  .item:nth-child(14n + 7) {
-    background-color: darkgreen; }
-    .item:nth-child(14n + 7):after {
-      content: "a";
-      display: block;
-      position: absolute;
-      z-index: 1;
-      top: 50%;
-      left: 100%;
-      transform: translateY(calc(-0.5 * var(--line-thickness)));
-      border: var(--line-thickness) solid lightgreen;
-      border-top-right-radius: calc(var(--grid-h-gap) * 2);
-      border-left: none;
-      border-bottom: none;
-      width: calc(var(--grid-h-gap));
-      height: calc((100% + var(--grid-v-gap)) * 0.5); }
+  .item:nth-child(14n + 7):after {
+    top: 50%;
+    left: 100%;
+    transform: translateY(calc(-0.5 * var(--line-thickness)));
+    border-top-right-radius: var(--line-radius);
+    border-left: none;
+    border-bottom: none;
+    width: calc(var(--grid-h-gap));
+    height: calc((100% + var(--grid-v-gap) - var(--line-thickness)) * 0.5); }
   /*odd line last visually (right): from odd line right bottom to even line right  (the ⮠ line*/
-  .item:nth-child(14n + 8) {
-    background-color: darkmagenta; }
-    .item:nth-child(14n + 8):before {
-      content: "b";
-      display: block;
-      position: absolute;
-      z-index: 1;
-      bottom: 50%;
-      left: 100%;
-      transform: translateY(calc(0.5 * var(--line-thickness)));
-      border: var(--line-thickness) solid magenta;
-      border-bottom-right-radius: calc(var(--grid-h-gap) * 2);
-      border-left: none;
-      border-top: none;
-      width: calc(0% + var(--grid-h-gap));
-      height: calc((100% + var(--grid-v-gap)) * 0.5); }
+  .item:nth-child(14n + 8):before {
+    content: "";
+    bottom: 50%;
+    left: 100%;
+    transform: translateY(calc(0.5 * var(--line-thickness)));
+    border-bottom-right-radius: var(--line-radius);
+    border-left: none;
+    border-top: none;
+    width: calc(0% + var(--grid-h-gap));
+    height: calc((100% + var(--grid-v-gap) - var(--line-thickness)) * 0.5); }
   /*even line 1st visually (left): from even line left  to odd line right  (the ⮦ line*/
-  .item:nth-child(14n) {
-    background-color: darkred; }
-    .item:nth-child(14n):after {
-      content: "a";
-      display: block;
-      position: absolute;
-      z-index: 1;
+  .item:nth-child(14n):after {
+    top: 50%;
+    right: 100%;
+    transform: translateY(calc(-0.5 * var(--line-thickness)));
+    border-top-left-radius: var(--line-radius);
+    border-right: none;
+    border-bottom: none;
+    width: calc(0% + var(--grid-h-gap));
+    height: calc((100% + var(--grid-v-gap) - var(--line-thickness)) * 0.5); }
+  /*odd line 1st visually (left): from even line left bottom to odd line left  (the ⮡ line*/
+  .item:nth-child(14n + 1):before {
+    content: "";
+    bottom: 50%;
+    right: 100%;
+    transform: translateY(calc(0.5 * var(--line-thickness)));
+    border-bottom-left-radius: var(--line-radius);
+    border-right: none;
+    border-top: none;
+    width: calc(0% + var(--grid-h-gap));
+    height: calc((100% + var(--grid-v-gap) - var(--line-thickness)) * 0.5); }
+  .item:first-child:before {
+    border: none; } }
+
+@media screen and (min-width: 990px) and (max-width: 1109px) {
+  .flex-container {
+    grid-template-columns: repeat(8, 1fr); }
+  .item:nth-child(16n + 9) {
+    grid-column: 8; }
+    .item:nth-child(16n + 9):after {
+      /*even line : from item to next: the - line, from right to left*/
       top: 50%;
       right: 100%;
       transform: translateY(calc(-0.5 * var(--line-thickness)));
-      border: var(--line-thickness) solid red;
-      border-top-left-radius: calc(var(--grid-h-gap) * 2);
-      border-right: none;
-      border-bottom: none;
       width: calc(0% + var(--grid-h-gap));
-      height: calc((100% + var(--grid-v-gap)) * 0.5); }
-  /*odd line 1st visually (left): from even line left bottom to odd line left  (the ⮡ line*/
-  .item:nth-child(14n + 1) {
-    background-color: darkblue; }
-    .item:nth-child(14n + 1):before {
-      content: "b";
-      display: block;
-      position: absolute;
-      z-index: 1;
-      bottom: 50%;
-      right: 100%;
-      transform: translateY(calc(0.5 * var(--line-thickness)));
-      border: var(--line-thickness) solid blue;
-      border-bottom-left-radius: calc(var(--grid-h-gap) * 2);
-      border-right: none;
+      height: 0px;
+      border-left: none;
       border-top: none;
+      border-right: none; }
+    .item:nth-child(16n + 9):last-child::after {
+      border: none; }
+  .item:nth-child(16n + 1) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(16n + 1):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
       width: calc(0% + var(--grid-h-gap));
-      height: calc((100% + var(--grid-v-gap)) * 0.5); }
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(16n + 1):last-child::after {
+      border: none; }
+  .item:nth-child(16n + 10) {
+    grid-column: 7; }
+    .item:nth-child(16n + 10):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(16n + 10):last-child::after {
+      border: none; }
+  .item:nth-child(16n + 2) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(16n + 2):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(16n + 2):last-child::after {
+      border: none; }
+  .item:nth-child(16n + 11) {
+    grid-column: 6; }
+    .item:nth-child(16n + 11):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(16n + 11):last-child::after {
+      border: none; }
+  .item:nth-child(16n + 3) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(16n + 3):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(16n + 3):last-child::after {
+      border: none; }
+  .item:nth-child(16n + 12) {
+    grid-column: 5; }
+    .item:nth-child(16n + 12):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(16n + 12):last-child::after {
+      border: none; }
+  .item:nth-child(16n + 4) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(16n + 4):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(16n + 4):last-child::after {
+      border: none; }
+  .item:nth-child(16n + 13) {
+    grid-column: 4; }
+    .item:nth-child(16n + 13):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(16n + 13):last-child::after {
+      border: none; }
+  .item:nth-child(16n + 5) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(16n + 5):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(16n + 5):last-child::after {
+      border: none; }
+  .item:nth-child(16n + 14) {
+    grid-column: 3; }
+    .item:nth-child(16n + 14):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(16n + 14):last-child::after {
+      border: none; }
+  .item:nth-child(16n + 6) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(16n + 6):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(16n + 6):last-child::after {
+      border: none; }
+  .item:nth-child(16n + 15) {
+    grid-column: 2; }
+    .item:nth-child(16n + 15):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(16n + 15):last-child::after {
+      border: none; }
+  .item:nth-child(16n + 7) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(16n + 7):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(16n + 7):last-child::after {
+      border: none; }
+  .item:nth-child(16n + 16) {
+    grid-column: 1; }
+    .item:nth-child(16n + 16):last-child::after {
+      border: none; }
+  .item:nth-child(16n + 8):last-child::after {
+    border: none; }
+  /*odd line last visually (right): from even line right top to bottom line right  (the ⮧ line)*/
+  .item:nth-child(16n + 8):after {
+    top: 50%;
+    left: 100%;
+    transform: translateY(calc(-0.5 * var(--line-thickness)));
+    border-top-right-radius: var(--line-radius);
+    border-left: none;
+    border-bottom: none;
+    width: calc(var(--grid-h-gap));
+    height: calc((100% + var(--grid-v-gap) - var(--line-thickness)) * 0.5); }
+  /*odd line last visually (right): from odd line right bottom to even line right  (the ⮠ line*/
+  .item:nth-child(16n + 9):before {
+    content: "";
+    bottom: 50%;
+    left: 100%;
+    transform: translateY(calc(0.5 * var(--line-thickness)));
+    border-bottom-right-radius: var(--line-radius);
+    border-left: none;
+    border-top: none;
+    width: calc(0% + var(--grid-h-gap));
+    height: calc((100% + var(--grid-v-gap) - var(--line-thickness)) * 0.5); }
+  /*even line 1st visually (left): from even line left  to odd line right  (the ⮦ line*/
+  .item:nth-child(16n):after {
+    top: 50%;
+    right: 100%;
+    transform: translateY(calc(-0.5 * var(--line-thickness)));
+    border-top-left-radius: var(--line-radius);
+    border-right: none;
+    border-bottom: none;
+    width: calc(0% + var(--grid-h-gap));
+    height: calc((100% + var(--grid-v-gap) - var(--line-thickness)) * 0.5); }
+  /*odd line 1st visually (left): from even line left bottom to odd line left  (the ⮡ line*/
+  .item:nth-child(16n + 1):before {
+    content: "";
+    bottom: 50%;
+    right: 100%;
+    transform: translateY(calc(0.5 * var(--line-thickness)));
+    border-bottom-left-radius: var(--line-radius);
+    border-right: none;
+    border-top: none;
+    width: calc(0% + var(--grid-h-gap));
+    height: calc((100% + var(--grid-v-gap) - var(--line-thickness)) * 0.5); }
+  .item:first-child:before {
+    border: none; } }
+
+@media screen and (min-width: 1110px) and (max-width: 1229px) {
+  .flex-container {
+    grid-template-columns: repeat(9, 1fr); }
+  .item:nth-child(18n + 10) {
+    grid-column: 9; }
+    .item:nth-child(18n + 10):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(18n + 10):last-child::after {
+      border: none; }
+  .item:nth-child(18n + 1) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(18n + 1):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(18n + 1):last-child::after {
+      border: none; }
+  .item:nth-child(18n + 11) {
+    grid-column: 8; }
+    .item:nth-child(18n + 11):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(18n + 11):last-child::after {
+      border: none; }
+  .item:nth-child(18n + 2) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(18n + 2):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(18n + 2):last-child::after {
+      border: none; }
+  .item:nth-child(18n + 12) {
+    grid-column: 7; }
+    .item:nth-child(18n + 12):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(18n + 12):last-child::after {
+      border: none; }
+  .item:nth-child(18n + 3) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(18n + 3):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(18n + 3):last-child::after {
+      border: none; }
+  .item:nth-child(18n + 13) {
+    grid-column: 6; }
+    .item:nth-child(18n + 13):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(18n + 13):last-child::after {
+      border: none; }
+  .item:nth-child(18n + 4) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(18n + 4):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(18n + 4):last-child::after {
+      border: none; }
+  .item:nth-child(18n + 14) {
+    grid-column: 5; }
+    .item:nth-child(18n + 14):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(18n + 14):last-child::after {
+      border: none; }
+  .item:nth-child(18n + 5) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(18n + 5):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(18n + 5):last-child::after {
+      border: none; }
+  .item:nth-child(18n + 15) {
+    grid-column: 4; }
+    .item:nth-child(18n + 15):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(18n + 15):last-child::after {
+      border: none; }
+  .item:nth-child(18n + 6) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(18n + 6):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(18n + 6):last-child::after {
+      border: none; }
+  .item:nth-child(18n + 16) {
+    grid-column: 3; }
+    .item:nth-child(18n + 16):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(18n + 16):last-child::after {
+      border: none; }
+  .item:nth-child(18n + 7) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(18n + 7):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(18n + 7):last-child::after {
+      border: none; }
+  .item:nth-child(18n + 17) {
+    grid-column: 2; }
+    .item:nth-child(18n + 17):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(18n + 17):last-child::after {
+      border: none; }
+  .item:nth-child(18n + 8) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(18n + 8):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(18n + 8):last-child::after {
+      border: none; }
+  .item:nth-child(18n + 18) {
+    grid-column: 1; }
+    .item:nth-child(18n + 18):last-child::after {
+      border: none; }
+  .item:nth-child(18n + 9):last-child::after {
+    border: none; }
+  /*odd line last visually (right): from even line right top to bottom line right  (the ⮧ line)*/
+  .item:nth-child(18n + 9):after {
+    top: 50%;
+    left: 100%;
+    transform: translateY(calc(-0.5 * var(--line-thickness)));
+    border-top-right-radius: var(--line-radius);
+    border-left: none;
+    border-bottom: none;
+    width: calc(var(--grid-h-gap));
+    height: calc((100% + var(--grid-v-gap) - var(--line-thickness)) * 0.5); }
+  /*odd line last visually (right): from odd line right bottom to even line right  (the ⮠ line*/
+  .item:nth-child(18n + 10):before {
+    content: "";
+    bottom: 50%;
+    left: 100%;
+    transform: translateY(calc(0.5 * var(--line-thickness)));
+    border-bottom-right-radius: var(--line-radius);
+    border-left: none;
+    border-top: none;
+    width: calc(0% + var(--grid-h-gap));
+    height: calc((100% + var(--grid-v-gap) - var(--line-thickness)) * 0.5); }
+  /*even line 1st visually (left): from even line left  to odd line right  (the ⮦ line*/
+  .item:nth-child(18n):after {
+    top: 50%;
+    right: 100%;
+    transform: translateY(calc(-0.5 * var(--line-thickness)));
+    border-top-left-radius: var(--line-radius);
+    border-right: none;
+    border-bottom: none;
+    width: calc(0% + var(--grid-h-gap));
+    height: calc((100% + var(--grid-v-gap) - var(--line-thickness)) * 0.5); }
+  /*odd line 1st visually (left): from even line left bottom to odd line left  (the ⮡ line*/
+  .item:nth-child(18n + 1):before {
+    content: "";
+    bottom: 50%;
+    right: 100%;
+    transform: translateY(calc(0.5 * var(--line-thickness)));
+    border-bottom-left-radius: var(--line-radius);
+    border-right: none;
+    border-top: none;
+    width: calc(0% + var(--grid-h-gap));
+    height: calc((100% + var(--grid-v-gap) - var(--line-thickness)) * 0.5); }
+  .item:first-child:before {
+    border: none; } }
+
+@media screen and (min-width: 1230px) and (max-width: 1349px) {
+  .flex-container {
+    grid-template-columns: repeat(10, 1fr); }
+  .item:nth-child(20n + 11) {
+    grid-column: 10; }
+    .item:nth-child(20n + 11):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(20n + 11):last-child::after {
+      border: none; }
+  .item:nth-child(20n + 1) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(20n + 1):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(20n + 1):last-child::after {
+      border: none; }
+  .item:nth-child(20n + 12) {
+    grid-column: 9; }
+    .item:nth-child(20n + 12):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(20n + 12):last-child::after {
+      border: none; }
+  .item:nth-child(20n + 2) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(20n + 2):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(20n + 2):last-child::after {
+      border: none; }
+  .item:nth-child(20n + 13) {
+    grid-column: 8; }
+    .item:nth-child(20n + 13):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(20n + 13):last-child::after {
+      border: none; }
+  .item:nth-child(20n + 3) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(20n + 3):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(20n + 3):last-child::after {
+      border: none; }
+  .item:nth-child(20n + 14) {
+    grid-column: 7; }
+    .item:nth-child(20n + 14):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(20n + 14):last-child::after {
+      border: none; }
+  .item:nth-child(20n + 4) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(20n + 4):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(20n + 4):last-child::after {
+      border: none; }
+  .item:nth-child(20n + 15) {
+    grid-column: 6; }
+    .item:nth-child(20n + 15):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(20n + 15):last-child::after {
+      border: none; }
+  .item:nth-child(20n + 5) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(20n + 5):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(20n + 5):last-child::after {
+      border: none; }
+  .item:nth-child(20n + 16) {
+    grid-column: 5; }
+    .item:nth-child(20n + 16):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(20n + 16):last-child::after {
+      border: none; }
+  .item:nth-child(20n + 6) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(20n + 6):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(20n + 6):last-child::after {
+      border: none; }
+  .item:nth-child(20n + 17) {
+    grid-column: 4; }
+    .item:nth-child(20n + 17):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(20n + 17):last-child::after {
+      border: none; }
+  .item:nth-child(20n + 7) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(20n + 7):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(20n + 7):last-child::after {
+      border: none; }
+  .item:nth-child(20n + 18) {
+    grid-column: 3; }
+    .item:nth-child(20n + 18):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(20n + 18):last-child::after {
+      border: none; }
+  .item:nth-child(20n + 8) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(20n + 8):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(20n + 8):last-child::after {
+      border: none; }
+  .item:nth-child(20n + 19) {
+    grid-column: 2; }
+    .item:nth-child(20n + 19):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(20n + 19):last-child::after {
+      border: none; }
+  .item:nth-child(20n + 9) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(20n + 9):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(20n + 9):last-child::after {
+      border: none; }
+  .item:nth-child(20n + 20) {
+    grid-column: 1; }
+    .item:nth-child(20n + 20):last-child::after {
+      border: none; }
+  .item:nth-child(20n + 10):last-child::after {
+    border: none; }
+  /*odd line last visually (right): from even line right top to bottom line right  (the ⮧ line)*/
+  .item:nth-child(20n + 10):after {
+    top: 50%;
+    left: 100%;
+    transform: translateY(calc(-0.5 * var(--line-thickness)));
+    border-top-right-radius: var(--line-radius);
+    border-left: none;
+    border-bottom: none;
+    width: calc(var(--grid-h-gap));
+    height: calc((100% + var(--grid-v-gap) - var(--line-thickness)) * 0.5); }
+  /*odd line last visually (right): from odd line right bottom to even line right  (the ⮠ line*/
+  .item:nth-child(20n + 11):before {
+    content: "";
+    bottom: 50%;
+    left: 100%;
+    transform: translateY(calc(0.5 * var(--line-thickness)));
+    border-bottom-right-radius: var(--line-radius);
+    border-left: none;
+    border-top: none;
+    width: calc(0% + var(--grid-h-gap));
+    height: calc((100% + var(--grid-v-gap) - var(--line-thickness)) * 0.5); }
+  /*even line 1st visually (left): from even line left  to odd line right  (the ⮦ line*/
+  .item:nth-child(20n):after {
+    top: 50%;
+    right: 100%;
+    transform: translateY(calc(-0.5 * var(--line-thickness)));
+    border-top-left-radius: var(--line-radius);
+    border-right: none;
+    border-bottom: none;
+    width: calc(0% + var(--grid-h-gap));
+    height: calc((100% + var(--grid-v-gap) - var(--line-thickness)) * 0.5); }
+  /*odd line 1st visually (left): from even line left bottom to odd line left  (the ⮡ line*/
+  .item:nth-child(20n + 1):before {
+    content: "";
+    bottom: 50%;
+    right: 100%;
+    transform: translateY(calc(0.5 * var(--line-thickness)));
+    border-bottom-left-radius: var(--line-radius);
+    border-right: none;
+    border-top: none;
+    width: calc(0% + var(--grid-h-gap));
+    height: calc((100% + var(--grid-v-gap) - var(--line-thickness)) * 0.5); }
+  .item:first-child:before {
+    border: none; } }
+
+@media screen and (min-width: 1350px) and (max-width: 1469px) {
+  .flex-container {
+    grid-template-columns: repeat(11, 1fr); }
+  .item:nth-child(22n + 12) {
+    grid-column: 11; }
+    .item:nth-child(22n + 12):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(22n + 12):last-child::after {
+      border: none; }
+  .item:nth-child(22n + 1) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(22n + 1):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(22n + 1):last-child::after {
+      border: none; }
+  .item:nth-child(22n + 13) {
+    grid-column: 10; }
+    .item:nth-child(22n + 13):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(22n + 13):last-child::after {
+      border: none; }
+  .item:nth-child(22n + 2) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(22n + 2):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(22n + 2):last-child::after {
+      border: none; }
+  .item:nth-child(22n + 14) {
+    grid-column: 9; }
+    .item:nth-child(22n + 14):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(22n + 14):last-child::after {
+      border: none; }
+  .item:nth-child(22n + 3) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(22n + 3):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(22n + 3):last-child::after {
+      border: none; }
+  .item:nth-child(22n + 15) {
+    grid-column: 8; }
+    .item:nth-child(22n + 15):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(22n + 15):last-child::after {
+      border: none; }
+  .item:nth-child(22n + 4) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(22n + 4):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(22n + 4):last-child::after {
+      border: none; }
+  .item:nth-child(22n + 16) {
+    grid-column: 7; }
+    .item:nth-child(22n + 16):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(22n + 16):last-child::after {
+      border: none; }
+  .item:nth-child(22n + 5) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(22n + 5):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(22n + 5):last-child::after {
+      border: none; }
+  .item:nth-child(22n + 17) {
+    grid-column: 6; }
+    .item:nth-child(22n + 17):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(22n + 17):last-child::after {
+      border: none; }
+  .item:nth-child(22n + 6) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(22n + 6):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(22n + 6):last-child::after {
+      border: none; }
+  .item:nth-child(22n + 18) {
+    grid-column: 5; }
+    .item:nth-child(22n + 18):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(22n + 18):last-child::after {
+      border: none; }
+  .item:nth-child(22n + 7) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(22n + 7):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(22n + 7):last-child::after {
+      border: none; }
+  .item:nth-child(22n + 19) {
+    grid-column: 4; }
+    .item:nth-child(22n + 19):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(22n + 19):last-child::after {
+      border: none; }
+  .item:nth-child(22n + 8) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(22n + 8):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(22n + 8):last-child::after {
+      border: none; }
+  .item:nth-child(22n + 20) {
+    grid-column: 3; }
+    .item:nth-child(22n + 20):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(22n + 20):last-child::after {
+      border: none; }
+  .item:nth-child(22n + 9) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(22n + 9):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(22n + 9):last-child::after {
+      border: none; }
+  .item:nth-child(22n + 21) {
+    grid-column: 2; }
+    .item:nth-child(22n + 21):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(22n + 21):last-child::after {
+      border: none; }
+  .item:nth-child(22n + 10) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(22n + 10):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(22n + 10):last-child::after {
+      border: none; }
+  .item:nth-child(22n + 22) {
+    grid-column: 1; }
+    .item:nth-child(22n + 22):last-child::after {
+      border: none; }
+  .item:nth-child(22n + 11):last-child::after {
+    border: none; }
+  /*odd line last visually (right): from even line right top to bottom line right  (the ⮧ line)*/
+  .item:nth-child(22n + 11):after {
+    top: 50%;
+    left: 100%;
+    transform: translateY(calc(-0.5 * var(--line-thickness)));
+    border-top-right-radius: var(--line-radius);
+    border-left: none;
+    border-bottom: none;
+    width: calc(var(--grid-h-gap));
+    height: calc((100% + var(--grid-v-gap) - var(--line-thickness)) * 0.5); }
+  /*odd line last visually (right): from odd line right bottom to even line right  (the ⮠ line*/
+  .item:nth-child(22n + 12):before {
+    content: "";
+    bottom: 50%;
+    left: 100%;
+    transform: translateY(calc(0.5 * var(--line-thickness)));
+    border-bottom-right-radius: var(--line-radius);
+    border-left: none;
+    border-top: none;
+    width: calc(0% + var(--grid-h-gap));
+    height: calc((100% + var(--grid-v-gap) - var(--line-thickness)) * 0.5); }
+  /*even line 1st visually (left): from even line left  to odd line right  (the ⮦ line*/
+  .item:nth-child(22n):after {
+    top: 50%;
+    right: 100%;
+    transform: translateY(calc(-0.5 * var(--line-thickness)));
+    border-top-left-radius: var(--line-radius);
+    border-right: none;
+    border-bottom: none;
+    width: calc(0% + var(--grid-h-gap));
+    height: calc((100% + var(--grid-v-gap) - var(--line-thickness)) * 0.5); }
+  /*odd line 1st visually (left): from even line left bottom to odd line left  (the ⮡ line*/
+  .item:nth-child(22n + 1):before {
+    content: "";
+    bottom: 50%;
+    right: 100%;
+    transform: translateY(calc(0.5 * var(--line-thickness)));
+    border-bottom-left-radius: var(--line-radius);
+    border-right: none;
+    border-top: none;
+    width: calc(0% + var(--grid-h-gap));
+    height: calc((100% + var(--grid-v-gap) - var(--line-thickness)) * 0.5); }
+  .item:first-child:before {
+    border: none; } }
+
+@media screen and (min-width: 1470px) and (max-width: 1589px) {
+  .flex-container {
+    grid-template-columns: repeat(12, 1fr); }
+  .item:nth-child(24n + 13) {
+    grid-column: 12; }
+    .item:nth-child(24n + 13):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(24n + 13):last-child::after {
+      border: none; }
+  .item:nth-child(24n + 1) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(24n + 1):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(24n + 1):last-child::after {
+      border: none; }
+  .item:nth-child(24n + 14) {
+    grid-column: 11; }
+    .item:nth-child(24n + 14):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(24n + 14):last-child::after {
+      border: none; }
+  .item:nth-child(24n + 2) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(24n + 2):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(24n + 2):last-child::after {
+      border: none; }
+  .item:nth-child(24n + 15) {
+    grid-column: 10; }
+    .item:nth-child(24n + 15):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(24n + 15):last-child::after {
+      border: none; }
+  .item:nth-child(24n + 3) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(24n + 3):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(24n + 3):last-child::after {
+      border: none; }
+  .item:nth-child(24n + 16) {
+    grid-column: 9; }
+    .item:nth-child(24n + 16):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(24n + 16):last-child::after {
+      border: none; }
+  .item:nth-child(24n + 4) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(24n + 4):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(24n + 4):last-child::after {
+      border: none; }
+  .item:nth-child(24n + 17) {
+    grid-column: 8; }
+    .item:nth-child(24n + 17):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(24n + 17):last-child::after {
+      border: none; }
+  .item:nth-child(24n + 5) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(24n + 5):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(24n + 5):last-child::after {
+      border: none; }
+  .item:nth-child(24n + 18) {
+    grid-column: 7; }
+    .item:nth-child(24n + 18):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(24n + 18):last-child::after {
+      border: none; }
+  .item:nth-child(24n + 6) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(24n + 6):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(24n + 6):last-child::after {
+      border: none; }
+  .item:nth-child(24n + 19) {
+    grid-column: 6; }
+    .item:nth-child(24n + 19):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(24n + 19):last-child::after {
+      border: none; }
+  .item:nth-child(24n + 7) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(24n + 7):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(24n + 7):last-child::after {
+      border: none; }
+  .item:nth-child(24n + 20) {
+    grid-column: 5; }
+    .item:nth-child(24n + 20):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(24n + 20):last-child::after {
+      border: none; }
+  .item:nth-child(24n + 8) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(24n + 8):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(24n + 8):last-child::after {
+      border: none; }
+  .item:nth-child(24n + 21) {
+    grid-column: 4; }
+    .item:nth-child(24n + 21):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(24n + 21):last-child::after {
+      border: none; }
+  .item:nth-child(24n + 9) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(24n + 9):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(24n + 9):last-child::after {
+      border: none; }
+  .item:nth-child(24n + 22) {
+    grid-column: 3; }
+    .item:nth-child(24n + 22):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(24n + 22):last-child::after {
+      border: none; }
+  .item:nth-child(24n + 10) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(24n + 10):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(24n + 10):last-child::after {
+      border: none; }
+  .item:nth-child(24n + 23) {
+    grid-column: 2; }
+    .item:nth-child(24n + 23):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(24n + 23):last-child::after {
+      border: none; }
+  .item:nth-child(24n + 11) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(24n + 11):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(24n + 11):last-child::after {
+      border: none; }
+  .item:nth-child(24n + 24) {
+    grid-column: 1; }
+    .item:nth-child(24n + 24):last-child::after {
+      border: none; }
+  .item:nth-child(24n + 12):last-child::after {
+    border: none; }
+  /*odd line last visually (right): from even line right top to bottom line right  (the ⮧ line)*/
+  .item:nth-child(24n + 12):after {
+    top: 50%;
+    left: 100%;
+    transform: translateY(calc(-0.5 * var(--line-thickness)));
+    border-top-right-radius: var(--line-radius);
+    border-left: none;
+    border-bottom: none;
+    width: calc(var(--grid-h-gap));
+    height: calc((100% + var(--grid-v-gap) - var(--line-thickness)) * 0.5); }
+  /*odd line last visually (right): from odd line right bottom to even line right  (the ⮠ line*/
+  .item:nth-child(24n + 13):before {
+    content: "";
+    bottom: 50%;
+    left: 100%;
+    transform: translateY(calc(0.5 * var(--line-thickness)));
+    border-bottom-right-radius: var(--line-radius);
+    border-left: none;
+    border-top: none;
+    width: calc(0% + var(--grid-h-gap));
+    height: calc((100% + var(--grid-v-gap) - var(--line-thickness)) * 0.5); }
+  /*even line 1st visually (left): from even line left  to odd line right  (the ⮦ line*/
+  .item:nth-child(24n):after {
+    top: 50%;
+    right: 100%;
+    transform: translateY(calc(-0.5 * var(--line-thickness)));
+    border-top-left-radius: var(--line-radius);
+    border-right: none;
+    border-bottom: none;
+    width: calc(0% + var(--grid-h-gap));
+    height: calc((100% + var(--grid-v-gap) - var(--line-thickness)) * 0.5); }
+  /*odd line 1st visually (left): from even line left bottom to odd line left  (the ⮡ line*/
+  .item:nth-child(24n + 1):before {
+    content: "";
+    bottom: 50%;
+    right: 100%;
+    transform: translateY(calc(0.5 * var(--line-thickness)));
+    border-bottom-left-radius: var(--line-radius);
+    border-right: none;
+    border-top: none;
+    width: calc(0% + var(--grid-h-gap));
+    height: calc((100% + var(--grid-v-gap) - var(--line-thickness)) * 0.5); }
+  .item:first-child:before {
+    border: none; } }
+
+@media screen and (min-width: 1590px) and (max-width: 1709px) {
+  .flex-container {
+    grid-template-columns: repeat(13, 1fr); }
+  .item:nth-child(26n + 14) {
+    grid-column: 13; }
+    .item:nth-child(26n + 14):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(26n + 14):last-child::after {
+      border: none; }
+  .item:nth-child(26n + 1) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(26n + 1):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(26n + 1):last-child::after {
+      border: none; }
+  .item:nth-child(26n + 15) {
+    grid-column: 12; }
+    .item:nth-child(26n + 15):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(26n + 15):last-child::after {
+      border: none; }
+  .item:nth-child(26n + 2) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(26n + 2):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(26n + 2):last-child::after {
+      border: none; }
+  .item:nth-child(26n + 16) {
+    grid-column: 11; }
+    .item:nth-child(26n + 16):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(26n + 16):last-child::after {
+      border: none; }
+  .item:nth-child(26n + 3) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(26n + 3):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(26n + 3):last-child::after {
+      border: none; }
+  .item:nth-child(26n + 17) {
+    grid-column: 10; }
+    .item:nth-child(26n + 17):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(26n + 17):last-child::after {
+      border: none; }
+  .item:nth-child(26n + 4) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(26n + 4):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(26n + 4):last-child::after {
+      border: none; }
+  .item:nth-child(26n + 18) {
+    grid-column: 9; }
+    .item:nth-child(26n + 18):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(26n + 18):last-child::after {
+      border: none; }
+  .item:nth-child(26n + 5) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(26n + 5):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(26n + 5):last-child::after {
+      border: none; }
+  .item:nth-child(26n + 19) {
+    grid-column: 8; }
+    .item:nth-child(26n + 19):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(26n + 19):last-child::after {
+      border: none; }
+  .item:nth-child(26n + 6) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(26n + 6):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(26n + 6):last-child::after {
+      border: none; }
+  .item:nth-child(26n + 20) {
+    grid-column: 7; }
+    .item:nth-child(26n + 20):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(26n + 20):last-child::after {
+      border: none; }
+  .item:nth-child(26n + 7) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(26n + 7):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(26n + 7):last-child::after {
+      border: none; }
+  .item:nth-child(26n + 21) {
+    grid-column: 6; }
+    .item:nth-child(26n + 21):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(26n + 21):last-child::after {
+      border: none; }
+  .item:nth-child(26n + 8) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(26n + 8):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(26n + 8):last-child::after {
+      border: none; }
+  .item:nth-child(26n + 22) {
+    grid-column: 5; }
+    .item:nth-child(26n + 22):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(26n + 22):last-child::after {
+      border: none; }
+  .item:nth-child(26n + 9) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(26n + 9):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(26n + 9):last-child::after {
+      border: none; }
+  .item:nth-child(26n + 23) {
+    grid-column: 4; }
+    .item:nth-child(26n + 23):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(26n + 23):last-child::after {
+      border: none; }
+  .item:nth-child(26n + 10) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(26n + 10):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(26n + 10):last-child::after {
+      border: none; }
+  .item:nth-child(26n + 24) {
+    grid-column: 3; }
+    .item:nth-child(26n + 24):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(26n + 24):last-child::after {
+      border: none; }
+  .item:nth-child(26n + 11) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(26n + 11):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(26n + 11):last-child::after {
+      border: none; }
+  .item:nth-child(26n + 25) {
+    grid-column: 2; }
+    .item:nth-child(26n + 25):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(26n + 25):last-child::after {
+      border: none; }
+  .item:nth-child(26n + 12) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(26n + 12):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(26n + 12):last-child::after {
+      border: none; }
+  .item:nth-child(26n + 26) {
+    grid-column: 1; }
+    .item:nth-child(26n + 26):last-child::after {
+      border: none; }
+  .item:nth-child(26n + 13):last-child::after {
+    border: none; }
+  /*odd line last visually (right): from even line right top to bottom line right  (the ⮧ line)*/
+  .item:nth-child(26n + 13):after {
+    top: 50%;
+    left: 100%;
+    transform: translateY(calc(-0.5 * var(--line-thickness)));
+    border-top-right-radius: var(--line-radius);
+    border-left: none;
+    border-bottom: none;
+    width: calc(var(--grid-h-gap));
+    height: calc((100% + var(--grid-v-gap) - var(--line-thickness)) * 0.5); }
+  /*odd line last visually (right): from odd line right bottom to even line right  (the ⮠ line*/
+  .item:nth-child(26n + 14):before {
+    content: "";
+    bottom: 50%;
+    left: 100%;
+    transform: translateY(calc(0.5 * var(--line-thickness)));
+    border-bottom-right-radius: var(--line-radius);
+    border-left: none;
+    border-top: none;
+    width: calc(0% + var(--grid-h-gap));
+    height: calc((100% + var(--grid-v-gap) - var(--line-thickness)) * 0.5); }
+  /*even line 1st visually (left): from even line left  to odd line right  (the ⮦ line*/
+  .item:nth-child(26n):after {
+    top: 50%;
+    right: 100%;
+    transform: translateY(calc(-0.5 * var(--line-thickness)));
+    border-top-left-radius: var(--line-radius);
+    border-right: none;
+    border-bottom: none;
+    width: calc(0% + var(--grid-h-gap));
+    height: calc((100% + var(--grid-v-gap) - var(--line-thickness)) * 0.5); }
+  /*odd line 1st visually (left): from even line left bottom to odd line left  (the ⮡ line*/
+  .item:nth-child(26n + 1):before {
+    content: "";
+    bottom: 50%;
+    right: 100%;
+    transform: translateY(calc(0.5 * var(--line-thickness)));
+    border-bottom-left-radius: var(--line-radius);
+    border-right: none;
+    border-top: none;
+    width: calc(0% + var(--grid-h-gap));
+    height: calc((100% + var(--grid-v-gap) - var(--line-thickness)) * 0.5); }
+  .item:first-child:before {
+    border: none; } }
+
+@media screen and (min-width: 1710px) and (max-width: 1829px) {
+  .flex-container {
+    grid-template-columns: repeat(14, 1fr); }
+  .item:nth-child(28n + 15) {
+    grid-column: 14; }
+    .item:nth-child(28n + 15):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(28n + 15):last-child::after {
+      border: none; }
+  .item:nth-child(28n + 1) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(28n + 1):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(28n + 1):last-child::after {
+      border: none; }
+  .item:nth-child(28n + 16) {
+    grid-column: 13; }
+    .item:nth-child(28n + 16):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(28n + 16):last-child::after {
+      border: none; }
+  .item:nth-child(28n + 2) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(28n + 2):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(28n + 2):last-child::after {
+      border: none; }
+  .item:nth-child(28n + 17) {
+    grid-column: 12; }
+    .item:nth-child(28n + 17):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(28n + 17):last-child::after {
+      border: none; }
+  .item:nth-child(28n + 3) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(28n + 3):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(28n + 3):last-child::after {
+      border: none; }
+  .item:nth-child(28n + 18) {
+    grid-column: 11; }
+    .item:nth-child(28n + 18):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(28n + 18):last-child::after {
+      border: none; }
+  .item:nth-child(28n + 4) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(28n + 4):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(28n + 4):last-child::after {
+      border: none; }
+  .item:nth-child(28n + 19) {
+    grid-column: 10; }
+    .item:nth-child(28n + 19):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(28n + 19):last-child::after {
+      border: none; }
+  .item:nth-child(28n + 5) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(28n + 5):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(28n + 5):last-child::after {
+      border: none; }
+  .item:nth-child(28n + 20) {
+    grid-column: 9; }
+    .item:nth-child(28n + 20):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(28n + 20):last-child::after {
+      border: none; }
+  .item:nth-child(28n + 6) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(28n + 6):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(28n + 6):last-child::after {
+      border: none; }
+  .item:nth-child(28n + 21) {
+    grid-column: 8; }
+    .item:nth-child(28n + 21):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(28n + 21):last-child::after {
+      border: none; }
+  .item:nth-child(28n + 7) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(28n + 7):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(28n + 7):last-child::after {
+      border: none; }
+  .item:nth-child(28n + 22) {
+    grid-column: 7; }
+    .item:nth-child(28n + 22):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(28n + 22):last-child::after {
+      border: none; }
+  .item:nth-child(28n + 8) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(28n + 8):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(28n + 8):last-child::after {
+      border: none; }
+  .item:nth-child(28n + 23) {
+    grid-column: 6; }
+    .item:nth-child(28n + 23):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(28n + 23):last-child::after {
+      border: none; }
+  .item:nth-child(28n + 9) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(28n + 9):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(28n + 9):last-child::after {
+      border: none; }
+  .item:nth-child(28n + 24) {
+    grid-column: 5; }
+    .item:nth-child(28n + 24):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(28n + 24):last-child::after {
+      border: none; }
+  .item:nth-child(28n + 10) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(28n + 10):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(28n + 10):last-child::after {
+      border: none; }
+  .item:nth-child(28n + 25) {
+    grid-column: 4; }
+    .item:nth-child(28n + 25):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(28n + 25):last-child::after {
+      border: none; }
+  .item:nth-child(28n + 11) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(28n + 11):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(28n + 11):last-child::after {
+      border: none; }
+  .item:nth-child(28n + 26) {
+    grid-column: 3; }
+    .item:nth-child(28n + 26):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(28n + 26):last-child::after {
+      border: none; }
+  .item:nth-child(28n + 12) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(28n + 12):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(28n + 12):last-child::after {
+      border: none; }
+  .item:nth-child(28n + 27) {
+    grid-column: 2; }
+    .item:nth-child(28n + 27):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(28n + 27):last-child::after {
+      border: none; }
+  .item:nth-child(28n + 13) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(28n + 13):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(28n + 13):last-child::after {
+      border: none; }
+  .item:nth-child(28n + 28) {
+    grid-column: 1; }
+    .item:nth-child(28n + 28):last-child::after {
+      border: none; }
+  .item:nth-child(28n + 14):last-child::after {
+    border: none; }
+  /*odd line last visually (right): from even line right top to bottom line right  (the ⮧ line)*/
+  .item:nth-child(28n + 14):after {
+    top: 50%;
+    left: 100%;
+    transform: translateY(calc(-0.5 * var(--line-thickness)));
+    border-top-right-radius: var(--line-radius);
+    border-left: none;
+    border-bottom: none;
+    width: calc(var(--grid-h-gap));
+    height: calc((100% + var(--grid-v-gap) - var(--line-thickness)) * 0.5); }
+  /*odd line last visually (right): from odd line right bottom to even line right  (the ⮠ line*/
+  .item:nth-child(28n + 15):before {
+    content: "";
+    bottom: 50%;
+    left: 100%;
+    transform: translateY(calc(0.5 * var(--line-thickness)));
+    border-bottom-right-radius: var(--line-radius);
+    border-left: none;
+    border-top: none;
+    width: calc(0% + var(--grid-h-gap));
+    height: calc((100% + var(--grid-v-gap) - var(--line-thickness)) * 0.5); }
+  /*even line 1st visually (left): from even line left  to odd line right  (the ⮦ line*/
+  .item:nth-child(28n):after {
+    top: 50%;
+    right: 100%;
+    transform: translateY(calc(-0.5 * var(--line-thickness)));
+    border-top-left-radius: var(--line-radius);
+    border-right: none;
+    border-bottom: none;
+    width: calc(0% + var(--grid-h-gap));
+    height: calc((100% + var(--grid-v-gap) - var(--line-thickness)) * 0.5); }
+  /*odd line 1st visually (left): from even line left bottom to odd line left  (the ⮡ line*/
+  .item:nth-child(28n + 1):before {
+    content: "";
+    bottom: 50%;
+    right: 100%;
+    transform: translateY(calc(0.5 * var(--line-thickness)));
+    border-bottom-left-radius: var(--line-radius);
+    border-right: none;
+    border-top: none;
+    width: calc(0% + var(--grid-h-gap));
+    height: calc((100% + var(--grid-v-gap) - var(--line-thickness)) * 0.5); }
+  .item:first-child:before {
+    border: none; } }
+
+@media screen and (min-width: 1830px) and (max-width: 1949px) {
+  .flex-container {
+    grid-template-columns: repeat(15, 1fr); }
+  .item:nth-child(30n + 16) {
+    grid-column: 15; }
+    .item:nth-child(30n + 16):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(30n + 16):last-child::after {
+      border: none; }
+  .item:nth-child(30n + 1) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(30n + 1):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(30n + 1):last-child::after {
+      border: none; }
+  .item:nth-child(30n + 17) {
+    grid-column: 14; }
+    .item:nth-child(30n + 17):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(30n + 17):last-child::after {
+      border: none; }
+  .item:nth-child(30n + 2) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(30n + 2):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(30n + 2):last-child::after {
+      border: none; }
+  .item:nth-child(30n + 18) {
+    grid-column: 13; }
+    .item:nth-child(30n + 18):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(30n + 18):last-child::after {
+      border: none; }
+  .item:nth-child(30n + 3) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(30n + 3):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(30n + 3):last-child::after {
+      border: none; }
+  .item:nth-child(30n + 19) {
+    grid-column: 12; }
+    .item:nth-child(30n + 19):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(30n + 19):last-child::after {
+      border: none; }
+  .item:nth-child(30n + 4) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(30n + 4):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(30n + 4):last-child::after {
+      border: none; }
+  .item:nth-child(30n + 20) {
+    grid-column: 11; }
+    .item:nth-child(30n + 20):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(30n + 20):last-child::after {
+      border: none; }
+  .item:nth-child(30n + 5) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(30n + 5):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(30n + 5):last-child::after {
+      border: none; }
+  .item:nth-child(30n + 21) {
+    grid-column: 10; }
+    .item:nth-child(30n + 21):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(30n + 21):last-child::after {
+      border: none; }
+  .item:nth-child(30n + 6) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(30n + 6):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(30n + 6):last-child::after {
+      border: none; }
+  .item:nth-child(30n + 22) {
+    grid-column: 9; }
+    .item:nth-child(30n + 22):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(30n + 22):last-child::after {
+      border: none; }
+  .item:nth-child(30n + 7) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(30n + 7):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(30n + 7):last-child::after {
+      border: none; }
+  .item:nth-child(30n + 23) {
+    grid-column: 8; }
+    .item:nth-child(30n + 23):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(30n + 23):last-child::after {
+      border: none; }
+  .item:nth-child(30n + 8) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(30n + 8):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(30n + 8):last-child::after {
+      border: none; }
+  .item:nth-child(30n + 24) {
+    grid-column: 7; }
+    .item:nth-child(30n + 24):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(30n + 24):last-child::after {
+      border: none; }
+  .item:nth-child(30n + 9) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(30n + 9):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(30n + 9):last-child::after {
+      border: none; }
+  .item:nth-child(30n + 25) {
+    grid-column: 6; }
+    .item:nth-child(30n + 25):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(30n + 25):last-child::after {
+      border: none; }
+  .item:nth-child(30n + 10) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(30n + 10):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(30n + 10):last-child::after {
+      border: none; }
+  .item:nth-child(30n + 26) {
+    grid-column: 5; }
+    .item:nth-child(30n + 26):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(30n + 26):last-child::after {
+      border: none; }
+  .item:nth-child(30n + 11) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(30n + 11):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(30n + 11):last-child::after {
+      border: none; }
+  .item:nth-child(30n + 27) {
+    grid-column: 4; }
+    .item:nth-child(30n + 27):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(30n + 27):last-child::after {
+      border: none; }
+  .item:nth-child(30n + 12) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(30n + 12):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(30n + 12):last-child::after {
+      border: none; }
+  .item:nth-child(30n + 28) {
+    grid-column: 3; }
+    .item:nth-child(30n + 28):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(30n + 28):last-child::after {
+      border: none; }
+  .item:nth-child(30n + 13) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(30n + 13):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(30n + 13):last-child::after {
+      border: none; }
+  .item:nth-child(30n + 29) {
+    grid-column: 2; }
+    .item:nth-child(30n + 29):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(30n + 29):last-child::after {
+      border: none; }
+  .item:nth-child(30n + 14) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(30n + 14):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(30n + 14):last-child::after {
+      border: none; }
+  .item:nth-child(30n + 30) {
+    grid-column: 1; }
+    .item:nth-child(30n + 30):last-child::after {
+      border: none; }
+  .item:nth-child(30n + 15):last-child::after {
+    border: none; }
+  /*odd line last visually (right): from even line right top to bottom line right  (the ⮧ line)*/
+  .item:nth-child(30n + 15):after {
+    top: 50%;
+    left: 100%;
+    transform: translateY(calc(-0.5 * var(--line-thickness)));
+    border-top-right-radius: var(--line-radius);
+    border-left: none;
+    border-bottom: none;
+    width: calc(var(--grid-h-gap));
+    height: calc((100% + var(--grid-v-gap) - var(--line-thickness)) * 0.5); }
+  /*odd line last visually (right): from odd line right bottom to even line right  (the ⮠ line*/
+  .item:nth-child(30n + 16):before {
+    content: "";
+    bottom: 50%;
+    left: 100%;
+    transform: translateY(calc(0.5 * var(--line-thickness)));
+    border-bottom-right-radius: var(--line-radius);
+    border-left: none;
+    border-top: none;
+    width: calc(0% + var(--grid-h-gap));
+    height: calc((100% + var(--grid-v-gap) - var(--line-thickness)) * 0.5); }
+  /*even line 1st visually (left): from even line left  to odd line right  (the ⮦ line*/
+  .item:nth-child(30n):after {
+    top: 50%;
+    right: 100%;
+    transform: translateY(calc(-0.5 * var(--line-thickness)));
+    border-top-left-radius: var(--line-radius);
+    border-right: none;
+    border-bottom: none;
+    width: calc(0% + var(--grid-h-gap));
+    height: calc((100% + var(--grid-v-gap) - var(--line-thickness)) * 0.5); }
+  /*odd line 1st visually (left): from even line left bottom to odd line left  (the ⮡ line*/
+  .item:nth-child(30n + 1):before {
+    content: "";
+    bottom: 50%;
+    right: 100%;
+    transform: translateY(calc(0.5 * var(--line-thickness)));
+    border-bottom-left-radius: var(--line-radius);
+    border-right: none;
+    border-top: none;
+    width: calc(0% + var(--grid-h-gap));
+    height: calc((100% + var(--grid-v-gap) - var(--line-thickness)) * 0.5); }
+  .item:first-child:before {
+    border: none; } }
+
+@media screen and (min-width: 1950px) {
+  .flex-container {
+    grid-template-columns: repeat(16, 1fr); }
+  .item:nth-child(32n + 17) {
+    grid-column: 16; }
+    .item:nth-child(32n + 17):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(32n + 17):last-child::after {
+      border: none; }
+  .item:nth-child(32n + 1) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(32n + 1):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(32n + 1):last-child::after {
+      border: none; }
+  .item:nth-child(32n + 18) {
+    grid-column: 15; }
+    .item:nth-child(32n + 18):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(32n + 18):last-child::after {
+      border: none; }
+  .item:nth-child(32n + 2) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(32n + 2):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(32n + 2):last-child::after {
+      border: none; }
+  .item:nth-child(32n + 19) {
+    grid-column: 14; }
+    .item:nth-child(32n + 19):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(32n + 19):last-child::after {
+      border: none; }
+  .item:nth-child(32n + 3) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(32n + 3):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(32n + 3):last-child::after {
+      border: none; }
+  .item:nth-child(32n + 20) {
+    grid-column: 13; }
+    .item:nth-child(32n + 20):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(32n + 20):last-child::after {
+      border: none; }
+  .item:nth-child(32n + 4) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(32n + 4):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(32n + 4):last-child::after {
+      border: none; }
+  .item:nth-child(32n + 21) {
+    grid-column: 12; }
+    .item:nth-child(32n + 21):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(32n + 21):last-child::after {
+      border: none; }
+  .item:nth-child(32n + 5) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(32n + 5):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(32n + 5):last-child::after {
+      border: none; }
+  .item:nth-child(32n + 22) {
+    grid-column: 11; }
+    .item:nth-child(32n + 22):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(32n + 22):last-child::after {
+      border: none; }
+  .item:nth-child(32n + 6) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(32n + 6):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(32n + 6):last-child::after {
+      border: none; }
+  .item:nth-child(32n + 23) {
+    grid-column: 10; }
+    .item:nth-child(32n + 23):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(32n + 23):last-child::after {
+      border: none; }
+  .item:nth-child(32n + 7) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(32n + 7):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(32n + 7):last-child::after {
+      border: none; }
+  .item:nth-child(32n + 24) {
+    grid-column: 9; }
+    .item:nth-child(32n + 24):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(32n + 24):last-child::after {
+      border: none; }
+  .item:nth-child(32n + 8) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(32n + 8):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(32n + 8):last-child::after {
+      border: none; }
+  .item:nth-child(32n + 25) {
+    grid-column: 8; }
+    .item:nth-child(32n + 25):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(32n + 25):last-child::after {
+      border: none; }
+  .item:nth-child(32n + 9) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(32n + 9):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(32n + 9):last-child::after {
+      border: none; }
+  .item:nth-child(32n + 26) {
+    grid-column: 7; }
+    .item:nth-child(32n + 26):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(32n + 26):last-child::after {
+      border: none; }
+  .item:nth-child(32n + 10) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(32n + 10):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(32n + 10):last-child::after {
+      border: none; }
+  .item:nth-child(32n + 27) {
+    grid-column: 6; }
+    .item:nth-child(32n + 27):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(32n + 27):last-child::after {
+      border: none; }
+  .item:nth-child(32n + 11) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(32n + 11):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(32n + 11):last-child::after {
+      border: none; }
+  .item:nth-child(32n + 28) {
+    grid-column: 5; }
+    .item:nth-child(32n + 28):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(32n + 28):last-child::after {
+      border: none; }
+  .item:nth-child(32n + 12) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(32n + 12):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(32n + 12):last-child::after {
+      border: none; }
+  .item:nth-child(32n + 29) {
+    grid-column: 4; }
+    .item:nth-child(32n + 29):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(32n + 29):last-child::after {
+      border: none; }
+  .item:nth-child(32n + 13) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(32n + 13):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(32n + 13):last-child::after {
+      border: none; }
+  .item:nth-child(32n + 30) {
+    grid-column: 3; }
+    .item:nth-child(32n + 30):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(32n + 30):last-child::after {
+      border: none; }
+  .item:nth-child(32n + 14) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(32n + 14):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(32n + 14):last-child::after {
+      border: none; }
+  .item:nth-child(32n + 31) {
+    grid-column: 2; }
+    .item:nth-child(32n + 31):after {
+      /*even line : from item to next: the - line, from right to left*/
+      top: 50%;
+      right: 100%;
+      transform: translateY(calc(-0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(32n + 31):last-child::after {
+      border: none; }
+  .item:nth-child(32n + 15) {
+    /*odd line : from item to next: the - line, from left to right*/ }
+    .item:nth-child(32n + 15):after {
+      bottom: 50%;
+      left: 100%;
+      transform: translateY(calc(0.5 * var(--line-thickness)));
+      width: calc(0% + var(--grid-h-gap));
+      height: 0px;
+      border-left: none;
+      border-top: none;
+      border-right: none; }
+    .item:nth-child(32n + 15):last-child::after {
+      border: none; }
+  .item:nth-child(32n + 32) {
+    grid-column: 1; }
+    .item:nth-child(32n + 32):last-child::after {
+      border: none; }
+  .item:nth-child(32n + 16):last-child::after {
+    border: none; }
+  /*odd line last visually (right): from even line right top to bottom line right  (the ⮧ line)*/
+  .item:nth-child(32n + 16):after {
+    top: 50%;
+    left: 100%;
+    transform: translateY(calc(-0.5 * var(--line-thickness)));
+    border-top-right-radius: var(--line-radius);
+    border-left: none;
+    border-bottom: none;
+    width: calc(var(--grid-h-gap));
+    height: calc((100% + var(--grid-v-gap) - var(--line-thickness)) * 0.5); }
+  /*odd line last visually (right): from odd line right bottom to even line right  (the ⮠ line*/
+  .item:nth-child(32n + 17):before {
+    content: "";
+    bottom: 50%;
+    left: 100%;
+    transform: translateY(calc(0.5 * var(--line-thickness)));
+    border-bottom-right-radius: var(--line-radius);
+    border-left: none;
+    border-top: none;
+    width: calc(0% + var(--grid-h-gap));
+    height: calc((100% + var(--grid-v-gap) - var(--line-thickness)) * 0.5); }
+  /*even line 1st visually (left): from even line left  to odd line right  (the ⮦ line*/
+  .item:nth-child(32n):after {
+    top: 50%;
+    right: 100%;
+    transform: translateY(calc(-0.5 * var(--line-thickness)));
+    border-top-left-radius: var(--line-radius);
+    border-right: none;
+    border-bottom: none;
+    width: calc(0% + var(--grid-h-gap));
+    height: calc((100% + var(--grid-v-gap) - var(--line-thickness)) * 0.5); }
+  /*odd line 1st visually (left): from even line left bottom to odd line left  (the ⮡ line*/
+  .item:nth-child(32n + 1):before {
+    content: "";
+    bottom: 50%;
+    right: 100%;
+    transform: translateY(calc(0.5 * var(--line-thickness)));
+    border-bottom-left-radius: var(--line-radius);
+    border-right: none;
+    border-top: none;
+    width: calc(0% + var(--grid-h-gap));
+    height: calc((100% + var(--grid-v-gap) - var(--line-thickness)) * 0.5); }
   .item:first-child:before {
     border: none; } }

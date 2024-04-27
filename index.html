@@ -7,12 +7,31 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>HTML 5 Boilerplate</title>
     <link rel="stylesheet" href="stylesheet/css/snake.css">
-    <!-- <link rel="stylesheet" href="snake.css"> -->
+    <link rel="stylesheet" href="stylesheet/css/debug.css" id="theme">
+    <style>
+        body {
+            font:
+                400 14px "Arial",
+                sans-serif;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: lightgray;
+            border-radius: 0.5rem;
+            border: none;
+            padding: 0.5rem 1rem;
+            margin: 1rem;
+        }
+    </style>
 </head>
 
 <body>
     <!-- <script src="index.js"></script> -->
-
+    <button type="button"
+        onclick="document.getElementById('theme').setAttribute('href', 'stylesheet/css/debug.css')">debug</button>
+    <button type="button"
+        onclick="document.getElementById('theme').setAttribute('href', 'stylesheet/css/fancy.css')">fancy</button>
 
     <div class="flex-container">
         <div class="item success" onclick="this.classList.toggle('success')">
@@ -85,7 +104,7 @@
                     voluptate velit esse cillum</div>
             </div>
         </div>
-        <div class="item" onclick="this.classList.toggle('success')">
+        <div class="item disabled" onclick="this.classList.toggle('success')">
             <div class="card">
                 <h3>--/--/--</h3>
                 <span class="tag">N/A</span>
@@ -96,7 +115,7 @@
             </div>
 
         </div>
-        <div class="item" onclick="this.classList.toggle('success')">
+        <div class="item disabled" onclick="this.classList.toggle('success')">
             <div class="card">
                 <h3>--/--/--</h3>
                 <span class="tag">N/A</span>
@@ -106,7 +125,7 @@
                     voluptate velit esse cillum</div>
             </div>
         </div>
-        <div class="item" onclick="this.classList.toggle('warning')">
+        <div class="item disabled" onclick="this.classList.toggle('warning')">
             <div class="card">
                 <h3>--/--/--</h3>
                 <span class="tag">N/A</span>
@@ -116,7 +135,7 @@
                     voluptate velit esse cillum</div>
             </div>
         </div>
-        <div class="item" onclick="this.classList.toggle('failure')">
+        <div class="item disabled" onclick="this.classList.toggle('failure')">
             <div class="card">
                 <h3>--/--/--</h3>
                 <span class="tag">N/A</span>
@@ -126,7 +145,7 @@
                     voluptate velit esse cillum</div>
             </div>
         </div>
-        <div class="item" onclick="this.classList.toggle('success')">
+        <div class="item disabled" onclick="this.classList.toggle('success')">
             <div class="card">
                 <h3>--/--/--</h3>
                 <span class="tag">N/A</span>
@@ -136,7 +155,7 @@
                     voluptate velit esse cillum</div>
             </div>
         </div>
-        <div class="item" onclick="this.classList.toggle('success')">
+        <div class="item disabled" onclick="this.classList.toggle('success')">
             <div class="card">
                 <h3>--/--/--</h3>
                 <span class="tag">N/A</span>
@@ -146,49 +165,49 @@
                     voluptate velit esse cillum</div>
             </div>
         </div>
-        <div class="item" onclick="this.classList.toggle('failure')">
+        <div class="item disabled" onclick="this.classList.toggle('failure')">
             <div class="card">
                 <h3>--/--/--</h3>
                 <span class="tag">N/A</span>
                 <div class="content">Lorem </div>
             </div>
         </div>
-        <div class="item" onclick="this.classList.toggle('warning')">
+        <div class="item disabled" onclick="this.classList.toggle('warning')">
             <div class="card">
                 <h3>--/--/--</h3>
                 <span class="tag">N/A</span>
                 <div class="content">Lorem ipsum dolor</div>
             </div>
         </div>
-        <div class="item" onclick="this.classList.toggle('success')">
+        <div class="item disabled" onclick="this.classList.toggle('success')">
             <div class="card">
                 <h3>--/--/--</h3>
                 <span class="tag">N/A</span>
                 <div class="content">Lore</div>
             </div>
         </div>
-        <div class="item" onclick="this.classList.toggle('success')">
+        <div class="item disabled" onclick="this.classList.toggle('success')">
             <div class="card">
                 <h3>--/--/--</h3>
                 <span class="tag">N/A</span>
                 <div class="content">Lorem ipsum </div>
             </div>
         </div>
-        <div class="item" onclick="this.classList.toggle('failure')">
+        <div class="item disabled" onclick="this.classList.toggle('failure')">
             <div class="card">
                 <h3>--/--/--</h3>
                 <span class="tag">N/A</span>
                 <div class="content">Lorem ipsum</div>
             </div>
         </div>
-        <div class="item" onclick="this.classList.toggle('success')">
+        <div class="item disabled" onclick="this.classList.toggle('success')">
             <div class="card">
                 <h3>--/--/--</h3>
                 <span class="tag">N/A</span>
                 <div class="content"></div>
             </div>
         </div>
-        <div class="item" onclick="this.classList.toggle('success')">
+        <div class="item disabled" onclick="this.classList.toggle('success')">
             <div class="card">
                 <h3>--/--/--</h3>
                 <span class="tag">N/A</span>
@@ -198,14 +217,14 @@
                     voluptate velit esse cillum</div>
             </div>
         </div>
-        <div class="item" onclick="this.classList.toggle('success')">
+        <div class="item disabled" onclick="this.classList.toggle('success')">
             <div class="card">
                 <h3>--/--/--</h3>
                 <span class="tag">N/A</span>
                 <div class="content"></div>
             </div>
         </div>
-        <div class="item" onclick="this.classList.toggle('warning')">
+        <div class="item disabled" onclick="this.classList.toggle('warning')">
             <div class="card">
                 <h3>--/--/--</h3>
                 <span class="tag">N/A</span>
@@ -215,14 +234,14 @@
                     voluptate velit esse cillum</div>
             </div>
         </div>
-        <div class="item" onclick="this.classList.toggle('success')">
+        <div class="item disabled" onclick="this.classList.toggle('success')">
             <div class="card">
                 <h3>--/--/--</h3>
                 <span class="tag">N/A</span>
                 <div class="content"></div>
             </div>
         </div>
-        <div class="item" onclick="this.classList.toggle('success')">
+        <div class="item disabled" onclick="this.classList.toggle('success')">
             <div class="card">
                 <h3>--/--/--</h3>
                 <span class="tag">N/A</span>
@@ -232,14 +251,14 @@
                     voluptate velit esse cillum</div>
             </div>
         </div>
-        <div class="item" onclick="this.classList.toggle('success')">
+        <div class="item disabled" onclick="this.classList.toggle('success')">
             <div class="card">
                 <h3>--/--/--</h3>
                 <span class="tag">N/A</span>
                 <div class="content"></div>
             </div>
         </div>
-        <div class="item" onclick="this.classList.toggle('failure')">
+        <div class="item disabled" onclick="this.classList.toggle('failure')">
             <div class="card">
                 <h3>--/--/--</h3>
                 <span class="tag">N/A</span>

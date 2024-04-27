@@ -1,0 +1,106 @@
+@import "snake";
+
+$grid-h-gap: 60px;
+$item-min-width: 130px;
+
+.flex-container {
+    --grid-v-gap: 30px;
+    --grid-h-gap: #{$grid-h-gap};
+    --item-min-width: #{$item-min-width};
+    --line-thickness: 4px; //use a multiple of 2 to avoid glitches
+}
+
+.item {
+    min-width: var(--item-min-width);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    // default style
+    &::before,
+    &::after {
+        border-color: lightgray;
+        border-style: solid;
+    }
+    //item content
+    .card {
+        width: 100%;
+        border: 1px solid lightgray;
+        color: lightgray;
+        background-color: rgb(231, 231, 231);
+        border-radius: 10px;
+        padding: 6px;
+        max-height: 100px;
+        min-height: 40px;
+
+        h3 {
+            margin: 0;
+            padding: 0;
+            // font: 400 14px "Arial", sans-serif;
+        }
+        .content {
+            text-overflow: ellipsis;
+            overflow: hidden;
+            // Addition lines for 2 line or multiline ellipsis
+            display: -webkit-box !important;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            white-space: normal;
+        }
+        span.tag {
+            background-color: white;
+            border-radius: 50%;
+            font-weight: 900;
+            font-size: 12px;
+            width: 26px;
+            height: 26px;
+            text-align: center;
+            vertical-align: middle;
+            display: table-cell;
+            margin: 6px;
+        }
+    }
+    &.success {
+        &::after,
+        &::before {
+            border-color: rgb(4, 204, 4);
+        }
+        .card {
+            border-color: rgb(4, 204, 4);
+            background-color: rgb(4, 204, 4);
+            color: white;
+            span.tag {
+                color: rgb(4, 204, 4);
+            }
+        }
+    }
+    &.warning {
+        &::after,
+        &::before {
+            border-color: rgb(204, 191, 4);
+        }
+        .card {
+            border-color: rgb(204, 191, 4);
+            background-color: rgb(204, 191, 4);
+            color: white;
+            span.tag {
+                color: rgb(204, 157, 4);
+            }
+        }
+    }
+    &.failure {
+        &::after,
+        &::before {
+            border-color: rgb(219, 8, 18);
+        }
+        .card {
+            border-color: rgb(219, 8, 18);
+            background-color: rgb(219, 8, 18);
+            color: white;
+            span.tag {
+                color: rgb(219, 8, 18);
+            }
+        }
+    }
+}
+@include auto-cols(1920px, $item-min-width, $grid-h-gap);

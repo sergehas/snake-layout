@@ -1,118 +1,12 @@
-$grid-h-gap: 60px;
-$grid-v-gap: 30px;
-$item-min-width: 130px;
+// $grid-h-gap: 60px;
+// $item-min-width: 130px;
 
-:root {
-    --grid-v-gap: #{$grid-v-gap};
-    --grid-h-gap: #{$grid-h-gap};
-    --item-min-width: #{$item-min-width};
-    --line-thickness: 4px; //use a multiple of 2 to avoid glitches
+.flex-container {
+    --grid-v-gap: 32px;
+    --grid-h-gap: 32px;
+    --item-min-width: 100px;
+    --line-thickness: 2px; //use a multiple of 2 to avoid glitches
     --line-radius: calc(var(--grid-h-gap) * 2);
-}
-
-body {
-    font:
-        400 14px "Arial",
-        sans-serif;
-    counter-reset: num;
-    box-sizing: border-box;
-}
-
-.item {
-    min-width: var(--item-min-width);
-    margin: 0;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    // default style
-    &::before,
-    &::after {
-        border-color: lightgray;
-        border-style: dotted;
-    }
-    //item content
-    .card {
-        width: 100%;
-        border: 1px solid lightgray;
-        color: lightgray;
-        background-color: rgb(231, 231, 231);
-        border-radius: 10px;
-        padding: 6px;
-        max-height: 100px;
-        min-height: 40px;
-
-        h3 {
-            margin: 0;
-            padding: 0;
-            // font: 400 14px "Arial", sans-serif;
-        }
-        .content {
-            text-overflow: ellipsis;
-            overflow: hidden;
-            // Addition lines for 2 line or multiline ellipsis
-            display: -webkit-box !important;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-            white-space: normal;
-        }
-        span.tag {
-            background-color: white;
-            border-radius: 50%;
-            font-weight: 900;
-            font-size: 12px;
-            width: 26px;
-            height: 26px;
-            text-align: center;
-            vertical-align: middle;
-            display: table-cell;
-            margin: 6px;
-        }
-    }
-    &.success {
-        &::after,
-        &::before {
-            border-color: rgb(4, 204, 4);
-            border-style: solid;
-        }
-        .card {
-            border-color: rgb(4, 204, 4);
-            background-color: rgb(4, 204, 4);
-            color: white;
-            span.tag {
-                color: rgb(4, 204, 4);
-            }
-        }
-    }
-    &.warning {
-        &::after,
-        &::before {
-            border-color: rgb(204, 191, 4);
-            border-style: solid;
-        }
-        .card {
-            border-color: rgb(204, 191, 4);
-            background-color: rgb(204, 191, 4);
-            color: white;
-            span.tag {
-                color: rgb(204, 157, 4);
-            }
-        }
-    }
-    &.failure {
-        &::after,
-        &::before {
-            border-color: rgb(219, 8, 18);
-            border-style: solid;
-        }
-        .card {
-            border-color: rgb(219, 8, 18);
-            background-color: rgb(219, 8, 18);
-            color: white;
-            span.tag {
-                color: rgb(219, 8, 18);
-            }
-        }
-    }
 }
 
 /// layout
@@ -256,10 +150,12 @@ body {
         border: none;
     }
 }
-@mixin columnify($max-screen-width, $item-min-width, $h-gap) {
+@mixin auto-cols($max-screen-width, $item-min-width, $h-gap) {
     /*automatically compute the number of cols*/
     $col-width: $item-min-width + $h-gap;
     $nb-cols: round($max-screen-width / $col-width);
+    @debug $col-width;
+    @debug $nb-cols;
 
     @for $i from 1 through $nb-cols {
         $screen-min: $col-width * $i + $h-gap;
@@ -279,4 +175,3 @@ body {
         }
     }
 }
-@include columnify(1920px, $item-min-width, $grid-h-gap);
